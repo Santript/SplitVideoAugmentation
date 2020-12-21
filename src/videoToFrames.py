@@ -23,4 +23,4 @@ while(vidcap.isOpened()):
 vidcap.release()
 cv2.destroyAllWindows()
 endtime = time.time()
-print("Time taken:", round(endtime-starttime, 2), "seconds")
+print(interval,"images created (",round(endtime-starttime, 2),"sec )")

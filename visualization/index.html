@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!--
+		Author: Santript Sharma (2020)
+	-->
+	<title>VideoSplit Data Augmentation</title>
+	<link href="./main.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<script type="text/javascript" src="./main.js"></script>
+
+<body>
+	<h1>VideoSplit Augmentation</h1>
+	<div class="subjectMatterCount">
+		<label># of dog images:</label>
+		<span style="padding-right: 10px" id="numDog">0</span>
+		<label># of car images:</label>
+		<span style="padding-right: 10px" id="numCar">0</span>
+		<label># of plane images:</label>
+		<span style="padding-right: 10px" id="numPlane">0</span>
+	</div>
+	<form>
+		<fieldset>
+			<legend><b>Step 1: Video to Frames</b></legend>
+			<br>
+			<label for="subjectMatter">Select video suject matter:</label>
+			<select onchange="changeSelection();" onfocus="this.selectedIndex = -1;" id="first_select">
+				<option value="-1">select</option>
+				<option value="numDog">dog</option>
+				<option value="numCar">car</option>
+				<option value="numPlane">plane</option>
+			</select>
+			<p>
+				<table>Enter video path</table>
+				<input type="input" id="videoEnter"/>
+				<input type="button" onclick="updatesVidToFrame()" value="Start"/>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend><b>Step 2: Augmentation</b></legend>
+		</fieldset>
+	</form>
+</body>
+
+</html>
