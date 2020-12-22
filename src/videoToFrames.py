@@ -2,9 +2,17 @@
 import cv2
 import os
 import time
+import json
 
-vid_filename = "../assets/dog_1.mp4"
-object_type = "dog"
+
+#accessing data from json file
+with open("../visualization/json/data.json", "r") as read_file:
+	all_data = json.load(read_file)
+	step1data = all_data["Step_1"]
+	vid_filename = step1data["vid_file"]
+	object_type = step1data["subject_matter"]
+	read_file.close()
+
 
 #creates VideoCapture object to view the video
 vidcap = cv2.VideoCapture(vid_filename)
@@ -24,3 +32,12 @@ vidcap.release()
 cv2.destroyAllWindows()
 endtime = time.time()
 print(interval,"images created (",round(endtime-starttime, 2),"sec )")
+
+#changing the json value for the number of images
+json_img_type = "num"+object_type
+step1data[json_img_type] = interval
+
+#changing the json file using "dump()" function part of json
+with open("../visualization/json/data.json", "w") as read_file:
+	json.dump(all_data, read_file)
+	read_file.close()
