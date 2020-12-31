@@ -1,0 +1,18 @@
+
+/*
+
+===============
+	STYLING
+===============
+
+*/
+
+button {
+	cursor: pointer;
+}
+
+.subjectMatterCount {
+	position: relative;
+	text-align: right;
+	font-size: 14px;
+}
