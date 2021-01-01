@@ -10,8 +10,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<!--<script type="text/javascript" src="./main.js"></script>-->
-<script src="{{ url_for('static',filename='styles/main.js') }}"> </script>
+<script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
 
 <body>
 	<h1>VideoSplit Augmentation</h1>
@@ -38,7 +37,7 @@
 			<form enctype="multipart/form-data" action="/upload" method="POST">
 				<!--<label for="myfile">Select video file:</label>-->
 				<p>Upload Video File: <input type="file" accept="video/*" name="vidFile" id="vidFile"/></p>
-				<p><input type="Submit" for="vidFile" value="Start"/></p>
+				<p><input type="Submit" for="vidFile" onclick="updatesVidToFrame();" value="Start"/></p>
 				<!--<input type="file" name="vidFile" id="vidFile"/><br><br>
 				<input type="Submit" value="Go">-->
 			</form>
