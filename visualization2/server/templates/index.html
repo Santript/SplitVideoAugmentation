@@ -8,26 +8,28 @@
 	<title>VideoSplit Data Augmentation</title>
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 </head>
 
-<script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
+<!--<script type="text/javascript" src="{{ url_for('static', filename='styles/allFunc.js') }}"> </script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='json/data.json') }}"> </script>
 
 <body>
 	<h1>VideoSplit Augmentation</h1>
 	<div class="subjectMatterCount">
 		<label># of dog images:</label>
-		<span style="padding-right: 10px" id="numDog">0</span>
+		<span style="padding-right: 10px" id="numDog">{{numberDog}}</span>
 		<label># of car images:</label>
-		<span style="padding-right: 10px" id="numCar">0</span>
+		<span style="padding-right: 10px" id="numCar">{{numberCar}}</span>
 		<label># of plane images:</label>
-		<span style="padding-right: 10px" id="numPlane">0</span>
+		<span style="padding-right: 10px" id="numPlane">{{numberPlane}}</span>
 	</div>
 	<form method="POST" enctype="multipart/form-data">
 		<fieldset>
 			<legend><b>Step 1: Video to Frames</b></legend>
 			<br>
 			<label for="subjectMatter">Select video suject matter:</label>
-			<select onchange="changeSelection();" onfocus="this.selectedIndex = -1;" id="first_select">
+			<select onfocus="this.selectedIndex = -1;" id="first_select">
 				<option value="-1">select</option>
 				<option value="numDog">Dog</option>
 				<option value="numCar">Car</option>
@@ -37,7 +39,7 @@
 			<form enctype="multipart/form-data" action="/upload" method="POST">
 				<!--<label for="myfile">Select video file:</label>-->
 				<p>Upload Video File: <input type="file" accept="video/*" name="vidFile" id="vidFile"/></p>
-				<p><input type="Submit" for="vidFile" onclick="updatesVidToFrame();" value="Start"/></p>
+				<p><input type="Submit" for="vidFile" value="Start"/></p>
 				<!--<input type="file" name="vidFile" id="vidFile"/><br><br>
 				<input type="Submit" value="Go">-->
 			</form>
@@ -46,6 +48,16 @@
 			<legend><b>Step 2: Augmentation</b></legend>
 		</fieldset>
 	</form>
-</body>
 
+</body>
+<!--
+<script type="text/javascript">
+	function changeSelection(){
+		var value = document.getElementById("first_select").value;
+		var subject_matter = {{subj_matter}};
+		subject_matter = value.substring(3, value.length);
+		console.log(subject_matter);
+	}
+</script>
+-->
 </html>

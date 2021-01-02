@@ -33,11 +33,14 @@
 				<option value="numCar">Car</option>
 				<option value="numPlane">Plane</option>
 			</select>
-			<p>
-				<table>Enter video path</table>
-				<input type="input" id="videoEnter"/>
-				<input type="button" onclick="updatesVidToFrame()" value="Start"/>
-			</p>
+			<br><br>
+			<form enctype = "multipart/form-data" action="../src/videoToFrames.py" method="POST">
+				<!--<label for="myfile">Select video file:</label>-->
+				<p>Upload Video File: <input type="file" accept="video/*" name="vidFile"/></p>
+				<p><input type="Submit" value="Start"/></p>
+				<!--<input type="file" name="vidFile" id="vidFile"/><br><br>
+				<input type="Submit" value="Go">-->
+			</form>
 		</fieldset>
 		<fieldset>
 			<legend><b>Step 2: Augmentation</b></legend>
