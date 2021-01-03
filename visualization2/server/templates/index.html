@@ -29,7 +29,7 @@
 			<legend><b>Step 1: Video to Frames</b></legend>
 			<br>
 			<label for="subjectMatter">Select video suject matter:</label>
-			<select onfocus="this.selectedIndex = -1;" id="first_select">
+			<select onchange="sendSubjectMatter()" onfocus="this.selectedIndex = -1;" id="first_select">
 				<option value="-1">select</option>
 				<option value="numDog">Dog</option>
 				<option value="numCar">Car</option>
@@ -37,11 +37,8 @@
 			</select>
 			<br><br>
 			<form enctype="multipart/form-data" action="/upload" method="POST">
-				<!--<label for="myfile">Select video file:</label>-->
 				<p>Upload Video File: <input type="file" accept="video/*" name="vidFile" id="vidFile"/></p>
 				<p><input type="Submit" for="vidFile" value="Start"/></p>
-				<!--<input type="file" name="vidFile" id="vidFile"/><br><br>
-				<input type="Submit" value="Go">-->
 			</form>
 		</fieldset>
 		<fieldset>
@@ -49,15 +46,24 @@
 		</fieldset>
 	</form>
 
+	<script type="text/javascript">
+
+		function sendSubjectMatter(){
+			var subject_matter = '';
+			var chosenSM = document.getElementById("first_select").value;
+			//console.log("This is the chosen subject matter ", chosenSM);
+			subject_matter = chosenSM.substring(3, chosenSM.length);
+			//console.log(subject_matter);
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "../",
+				traditional: "true",
+				data: JSON.stringify(subject_matter),
+				dataType: "json"
+			});
+		}
+		
+	</script>
 </body>
-<!--
-<script type="text/javascript">
-	function changeSelection(){
-		var value = document.getElementById("first_select").value;
-		var subject_matter = {{subj_matter}};
-		subject_matter = value.substring(3, value.length);
-		console.log(subject_matter);
-	}
-</script>
--->
 </html>
