@@ -29,8 +29,8 @@
 			<legend><b>Step 1: Video to Frames</b></legend>
 			<br>
 			<label for="subjectMatter">Select video suject matter:</label>
-			<select onchange="sendSubjectMatter()" onfocus="this.selectedIndex = -1;" id="first_select">
-				<option value="-1">select</option>
+			<select id="first_select" onchange="sendSubjectMatter()" name="first_select">
+				<option value="">select</option>
 				<option value="numDog">Dog</option>
 				<option value="numCar">Car</option>
 				<option value="numPlane">Plane</option>
@@ -51,9 +51,7 @@
 		function sendSubjectMatter(){
 			var subject_matter = '';
 			var chosenSM = document.getElementById("first_select").value;
-			//console.log("This is the chosen subject matter ", chosenSM);
 			subject_matter = chosenSM.substring(3, chosenSM.length);
-			//console.log(subject_matter);
 			$.ajax({
 				type: "POST",
 				contentType: "application/json",
