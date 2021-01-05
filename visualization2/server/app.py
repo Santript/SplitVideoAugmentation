@@ -28,9 +28,11 @@ app.config["VIDEO_UPLOADS"] = "uploads/"
 #@return html page and necessary variables to complete the page
 
 def allProcesses():
+	
 	#calling other necessary functions
 	updateSubjectMatter()
 	uploadVideoFile()
+	updateSubjectMatterJson()
 	#print(crucialData)
 
 	#writing to json file
@@ -46,6 +48,8 @@ def allProcesses():
 #Receives post request from client side to update subject_matter variable in json file and updates json
 
 def updateSubjectMatter():
+
+	#checking if POST request was received
 	if request.method == 'POST':
 		#getting the json object from client-side
 		sm = request.get_json()
@@ -63,6 +67,8 @@ def updateSubjectMatter():
 #Saves the uploaded video file into uploads directory and changes the json variable called "vid_file"
 
 def uploadVideoFile():
+
+	#checking if POST request was received
 	if request.method == 'POST':
 		if request.files:
 			#print(request.files["vidFile"])
@@ -73,6 +79,21 @@ def uploadVideoFile():
 			video.save(os.path.join(app.config["VIDEO_UPLOADS"], video.filename))
 		else:
 			print("unable to save video")
+
+
+#reads json file that videoToFrames.py file writes to and changes the value in the main json file
+
+def updateSubjectMatterJson():
+
+	#opening the secondary json file and reading it
+	with open("static/json/video2Frames.json", "r") as read_file:
+		vid2FramesData = json.load(read_file)
+		read_file.close()
+
+	#setting main json file variables equal to the same variable in the secondary json file
+	crucialData["step_1"]["numDog"] = vid2FramesData["numDog"]
+	crucialData["step_1"]["numCar"] = vid2FramesData["numCar"]
+	crucialData["step_1"]["numPlane"] = vid2FramesData["numPlane"]
 
 
 

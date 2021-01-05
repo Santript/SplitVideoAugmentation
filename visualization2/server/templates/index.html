@@ -11,7 +11,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 </head>
 
-<!--<script type="text/javascript" src="{{ url_for('static', filename='styles/allFunc.js') }}"> </script>-->
+<script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
 <script type="text/javascript" src="{{ url_for('static', filename='json/data.json') }}"> </script>
 
 <body>
@@ -45,23 +45,5 @@
 			<legend><b>Step 2: Augmentation</b></legend>
 		</fieldset>
 	</form>
-
-	<script type="text/javascript">
-
-		function sendSubjectMatter(){
-			var subject_matter = '';
-			var chosenSM = document.getElementById("first_select").value;
-			subject_matter = chosenSM.substring(3, chosenSM.length);
-			$.ajax({
-				type: "POST",
-				contentType: "application/json",
-				url: "../",
-				traditional: "true",
-				data: JSON.stringify(subject_matter),
-				dataType: "json"
-			});
-		}
-		
-	</script>
 </body>
 </html>
