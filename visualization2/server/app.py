@@ -32,6 +32,7 @@ def allProcesses():
 	#calling other necessary functions
 	updateSubjectMatter()
 	uploadVideoFile()
+	runV2FScript()
 	updateSubjectMatterJson()
 	#print(crucialData)
 
@@ -56,7 +57,8 @@ def updateSubjectMatter():
 
 		#checking if object is of none_type
 		#If it is, then the json file won't be updated
-		if sm != None:
+		print("This is sm: ", sm)
+		if sm != None or isinstance(sm, int) == True:
 			crucialData["step_1"]["subject_matter"] = sm
 		#print(sm)
 	else:
@@ -95,6 +97,28 @@ def updateSubjectMatterJson():
 	crucialData["step_1"]["numCar"] = vid2FramesData["numCar"]
 	crucialData["step_1"]["numPlane"] = vid2FramesData["numPlane"]
 
+
+#receives confirmation POST request from js file and then runs videoToFrames.py, which generates all the frames and places them in dataset directory
+
+def runV2FScript():
+
+	#checking if POST request was received
+	if request.method == "POST":
+		confirmation = request.get_json()
+		#print(confirmation)
+
+		#checking value of confirmation
+		#1 == True (run the py script)
+		#0 == False (return error)
+		if confirmation == 1:
+
+			#opening videoToFrames.py and reading it
+			v2fFile = open(r'videoToFrames.py', 'r').read()
+			#executing py script
+			return exec(v2fFile)
+		else:
+			#if confirmation not received, then can't run py file
+			return "Failed to execute videoToFrames.py"
 
 
 #Running flask app on localhost 5000
