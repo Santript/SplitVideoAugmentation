@@ -7,6 +7,14 @@
 
 */
 
+body {
+	color: black;
+}
+
+h1 {
+	text-align: center;
+}
+
 button {
 	cursor: pointer;
 }

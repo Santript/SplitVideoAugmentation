@@ -41,8 +41,14 @@ def allProcesses():
 		json.dump(crucialData, read_file)
 		read_file.close()
 
+	temp_data = {
+		'numberDog': numDog,
+		'numberCar': numCar,
+		'numberPlane': numPlane
+	}
+
 	#allowing html page to render from app		
-	return render_template("index.html", numberDog=numDog, numberCar=numCar, numberPlane=numPlane)
+	return render_template("index.html", **temp_data)
 
 
 
@@ -124,4 +130,4 @@ def runV2FScript():
 #Running flask app on localhost 5000
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(debug=True, threaded=True)
