@@ -1,9 +1,11 @@
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageFilter, ImageEnhance
+from skimage.util import random_noise
 
 import cv2
 import numpy as np
 import os
 import time
+import tensorflow as tf
 
 
 file = "../testPics/car.jpeg"
@@ -48,6 +50,7 @@ def changeContrastBrightness(filename, contrastControl, brightnessControl):
 	print("Time taken: ", round(time_taken, 2), "sec")
 
 
+
 """
 Adding blur to image
 @params filename: path of file, blur_x & blur_y: needed for cv2.GaussianBlur() to add blur to image
@@ -61,3 +64,64 @@ def addBlur(filename, blur_x=5, blur_y=5):
 	imgDiffResolution = cv2.GaussianBlur(img, (blur_x,blur_y), 0)
 	#saving new image to certain directory
 	cv2.imwrite("../testPics/car_diffresolution.jpg", imgDiffResolution)
+
+
+def addSaltAndPepper(filename, amount):
+
+	#reading image
+	img = cv2.imread(filename)
+
+	#adding random noise and salt & pepper to image with specified amount
+	noise_img = random_noise(img, mode='s&p',amount=amount)
+	#changed it to 'uint8' and from [0,255]
+	noise_img = np.array(255*noise_img, dtype = 'uint8')
+
+	#saving image
+	cv2.imwrite("../testPics/car_saltpepper.jpg", noise_img)
+	
+
+"""
+Adding shear to image along the x-axis
+@params filename: path of file
+
+"""
+def xAxisShear(filename):
+
+	#reading image
+	img = cv2.imread(filename)
+	rows, cols, dim = img.shape
+
+	#transformation matrix for x-axis shearing
+	M = np.float32([[1, 0.5, 0],
+             	    [0, 1  , 0],
+            	    [0, 0 , 1]])
+
+	#applying perspective transformation to image
+	x_axis_shearedImg = cv2.warpPerspective(img,M,(int(cols*1.5),int(rows*1.5)))
+
+	#saving sheared image
+	cv2.imwrite("../testPics/car_xshear.jpg", x_axis_shearedImg)
+
+
+
+"""
+Adding shear to image along the y-axis
+@params filename: path of file
+
+"""
+def yAxisShear(filename):
+
+	#reading image
+	img = cv2.imread(filename)
+	rows, cols, dim = img.shape
+
+	#transformation matrix for y-axis shearing
+	M = np.float32([[1,   0, 0],
+             	    [0.5, 1, 0],
+             	    [0,   0, 1]])
+
+	#applying perspective transformation to image
+	y_axis_shearedImg = cv2.warpPerspective(img,M,(int(cols*1.5),int(rows*1.5)))
+
+	#saving sheared image
+	cv2.imwrite("../testPics/car_yshear.jpg", y_axis_shearedImg)
