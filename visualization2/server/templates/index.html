@@ -14,7 +14,7 @@
 <script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
 <script type="text/javascript" src="{{ url_for('static', filename='json/data.json') }}"> </script>
 
-<body style="background-color: 	#DCDCDC">
+<body style="background-color: 	#fff">
 	<h1>VideoSplit Augmentation</h1>
 	<div class="subjectMatterCount">
 		<label># of dog images:</label>
@@ -26,7 +26,7 @@
 	</div>
 	<form method="POST" enctype="multipart/form-data">
 		<fieldset>
-			<legend><b>Step 1: Video to Frames</b></legend>
+			<legend><h3>Step 1: Video to Frames</h3></legend>
 			<br>
 			<label for="subjectMatter">Select video suject matter:</label>
 			<select id="first_select" onchange="sendSubjectMatter()" name="first_select">
@@ -42,7 +42,18 @@
 			</form>
 		</fieldset>
 		<fieldset>
-			<legend><b>Step 2: Augmentation</b></legend>
+			<legend><h3>Step 2: Augmentation</h3></legend>
+			<p>Select the augmentation techniques:</p>
+			<div class="row">
+				<div class="column">
+					<input type="checkbox" id="makeGrayScale" name="makeGrayScale"/><label for="makeGrayScale"></label>
+					<figcaption><b>Make Gray Scale</b></figcaption>
+				</div>
+				<div class="column">
+					<input type="checkbox" id="addEmboss" name="addEmboss"/><label for="addEmboss"></label>
+					<figcaption><b>Emboss Data</b></figcaption>
+				</div>
+			</div>
 		</fieldset>
 	</form>
 </body>

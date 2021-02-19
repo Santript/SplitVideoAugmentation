@@ -24,3 +24,59 @@ button {
 	text-align: right;
 	font-size: 14px;
 }
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 5px;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+input[type=checkbox] {
+	display:none;
+}
+
+input#makeGrayScale[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_gray.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#makeGrayScale[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#addEmboss[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_emboss.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#addEmboss[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}

@@ -3,6 +3,7 @@ import os
 import json
 
 app = Flask(__name__)
+application = app
 
 
 #opening json file and reading content

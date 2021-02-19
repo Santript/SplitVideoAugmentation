@@ -1,5 +1,8 @@
 from PIL import Image
 
+import cv2
+import numpy as np
+
 
 #test file
 file = "../testPics/car.jpeg"
@@ -32,4 +35,12 @@ def resize(filename, baseWidth=200):
 	#saving image in a certain directory
 	imgResized.save('../testPics/car_resized.jpg', quality=95)
 
-resize(file)
+def normalize(filename):
+	#reading image
+	img = cv2.imread(filename)
+	normalized_img = np.zeros((800,800))
+	final_img = cv2.normalize(img, normalized_img, 0, 255, cv2.NORM_MINMAX)
+	cv2.imwrite("../testPics/car_normalized.jpg", final_img)
+
+#resize(file)
+#normalize(file)

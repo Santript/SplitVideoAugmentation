@@ -8,7 +8,7 @@ import time
 import tensorflow as tf
 
 
-file = "../testPics/car.jpeg"
+file = "../testPics/htmlcar.jpg"
 
 
 """
@@ -125,3 +125,89 @@ def yAxisShear(filename):
 
 	#saving sheared image
 	cv2.imwrite("../testPics/car_yshear.jpg", y_axis_shearedImg)
+
+
+"""
+Embossing image (looks like engraving)
+@params filename: path of file
+
+"""
+def emboss(filename):
+	img = Image.open(filename)
+
+	#embossing inputted image
+	imgEmboss = img.filter(ImageFilter.EMBOSS)
+	imgEmboss.save("../testPics/car2_emboss.jpg")
+
+
+
+"""
+Smoothening image
+@params filename: path of file
+
+"""
+def smooth(filename):
+	img = Image.open(filename)
+
+	#adding smoothening filter from ImageFilter library
+	imgSmooth = img.filter(ImageFilter.SMOOTH)
+	imgSmooth.save("../testPics/car2_smooth.jpg")
+
+
+
+"""
+Smoothening image even more
+@params filename: path of file
+
+"""
+def extraSmooth(filename):
+	img = Image.open(filename)
+
+	#adding extra smoothening filter from ImageFilter library
+	imgSmooth = img.filter(ImageFilter.SMOOTH_MORE)
+	imgSmooth.save("../testPics/car2_smoothmore.jpg")
+
+
+
+"""
+Adding edge enhancement filter
+@params filename: path of file
+
+"""
+def edgeEnhance(filename):
+	img = Image.open(filename)
+
+	#adding extra smoothening filter from ImageFilter library
+	imgSmooth = img.filter(ImageFilter.EDGE_ENHANCE)
+	imgSmooth.save("../testPics/car2_edgeenhance.jpg")
+
+
+
+"""
+Adding extra edge enhancement filter
+@params filename: path of file
+
+"""
+def extraEdgeEnhance(filename):
+	img = Image.open(filename)
+
+	#adding extra smoothening filter from ImageFilter library
+	imgSmooth = img.filter(ImageFilter.EDGE_ENHANCE_MORE)
+	imgSmooth.save("../testPics/car2_edgeenhancemore.jpg")
+
+
+
+"""
+Converting rgb image to hsv
+@params filename: path of file
+
+"""
+def rgbToHSV(filename):
+	img = cv2.imread(filename)
+
+	#converting RGB image to HSV
+	imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+	cv2.imwrite("../testPics/car2_HSV.jpg", imgHSV)
+
+#makeGrayScale(file)
+emboss(file)
