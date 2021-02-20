@@ -210,4 +210,9 @@ def rgbToHSV(filename):
 	cv2.imwrite("../testPics/car2_HSV.jpg", imgHSV)
 
 #makeGrayScale(file)
-emboss(file)
+#emboss(file)
+#edgeEnhance(file)
+#extraEdgeEnhance(file)
+#rgbToHSV(file)
+#xAxisShear(file)
+#yAxisShear(file)

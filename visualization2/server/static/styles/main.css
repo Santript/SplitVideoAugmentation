@@ -27,8 +27,8 @@ button {
 
 .column {
   float: left;
-  width: 25%;
-  padding: 5px;
+  width: 32%;
+  padding: 8px;
 }
 
 .row::after {
@@ -73,6 +73,146 @@ input#addEmboss[type=checkbox] + label{
 }
 
 input#addEmboss[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#addEdgeEnhance[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_edgeenhance.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#addEdgeEnhance[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#addExtraEdgeEnhance[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_edgeenhancemore.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#addExtraEdgeEnhance[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#convertRGBToHSV[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_HSV.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#convertRGBToHSV[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#flipImg[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_flipped.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#flipImg[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#mirrorImg[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_mirrored.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#mirrorImg[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#xShearImg[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_xshear.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#xShearImg[type=checkbox]:checked + label {
+	border-color: #05E9FF;
+	border-style: solid;
+	height: 200;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#yShearImg[type=checkbox] + label{
+	background-image: url("../pics/augmentation/car_yshear.jpg");
+	background-size: 300px;
+	border-color: white;
+	border-style: solid;
+	height: 200px;
+	width: 300px;
+	display:inline-block;
+	padding: 0 0 0 0px;
+}
+
+input#yShearImg[type=checkbox]:checked + label {
 	border-color: #05E9FF;
 	border-style: solid;
 	height: 200;

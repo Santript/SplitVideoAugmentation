@@ -43,7 +43,7 @@
 		</fieldset>
 		<fieldset>
 			<legend><h3>Step 2: Augmentation</h3></legend>
-			<p>Select the augmentation techniques:</p>
+			<p>Select the augmentation techniques: (<a href="../static/pics/augmentation/htmlcar.jpg" target="_blank">view original image</a>)</p>
 			<div class="row">
 				<div class="column">
 					<input type="checkbox" id="makeGrayScale" name="makeGrayScale"/><label for="makeGrayScale"></label>
@@ -53,7 +53,41 @@
 					<input type="checkbox" id="addEmboss" name="addEmboss"/><label for="addEmboss"></label>
 					<figcaption><b>Emboss Data</b></figcaption>
 				</div>
+				<div class="column">
+					<input type="checkbox" id="addEdgeEnhance" name="addEdgeEnhance"/><label for="addEdgeEnhance"></label>
+					<figcaption><b>Add Edge Enhancement</b></figcaption>
+				</div>
+				<div class="column">
+					<input type="checkbox" id="addExtraEdgeEnhance" name="addExtraEdgeEnhance"/><label for="addExtraEdgeEnhance"></label>
+					<figcaption><b>Add Extra Edge Enhancement</b></figcaption>
+				</div>
+				<div class="column">
+					<input type="checkbox" id="convertRGBToHSV" name="convertRGBToHSV"/><label for="convertRGBToHSV"></label>
+					<figcaption><b>Convert to HSV</b></figcaption>
+				</div>
+				<div class="column">
+					<input type="checkbox" id="flipImg" name="flipImg"/><label for="flipImg"></label>
+					<figcaption><b>Flip Image</b></figcaption>
+				</div>
+				<div class="column">
+					<input type="checkbox" id="mirrorImg" name="mirrorImg"/><label for="mirrorImg"></label>
+					<figcaption><b>Mirror Image</b></figcaption>
+				</div>
+				<div class="column">
+					<input type="checkbox" id="xShearImg" name="xShearImg"/><label for="xShearImg"></label>
+					<figcaption><b>Apply X-Axis Shear</b></figcaption>
+				</div>
+				<div class="column">
+					<input type="checkbox" id="yShearImg" name="yShearImg"/><label for="yShearImg"></label>
+					<figcaption><b>Apply Y-Axis Shear</b></figcaption>
+				</div>
 			</div>
+			<br>
+			<input type="Submit" name="startAugmentation" id="startAugmentation" value="Start"/>
+		</fieldset>
+		<fieldset>
+			<legend><h3>Step 3: Download Dataset</h3></legend>
+			<button>Download</button>
 		</fieldset>
 	</form>
 </body>

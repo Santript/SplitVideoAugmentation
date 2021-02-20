@@ -1,7 +1,7 @@
 from PIL import Image, ImageOps
 
 #test file
-file = "../testPics/car.jpeg"
+file = "../testPics/htmlcar.jpg"
 
 
 """
@@ -34,3 +34,6 @@ def rotate(filename, degrees):
 	imgRotate = img.rotate(degrees)
 
 	imgRotate.save('../testPics/car_rotated.jpg', quality=95)
+
+#flip(file)
+#mirror(file)
