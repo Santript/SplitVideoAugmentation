@@ -44,6 +44,10 @@ function sendV2FConfirmation(){
 	});
 }
 
+
+/*
+sends the value of the checkbox and sends it to the server
+*/
 function checkAugmentation(){
 
 	var grayScaleChecked = document.getElementById("makeGrayScale").checked;
@@ -56,7 +60,6 @@ function checkAugmentation(){
 	var xShearImgChecked = document.getElementById("xShearImg").checked;
 	var yShearImgChecked = document.getElementById("yShearImg").checked;
 
-	console.log(JSON.stringify(augmentationMap));
 
 	$.ajax({
 		type: "POST",
@@ -78,6 +81,10 @@ function checkAugmentation(){
 	});
 }
 
+
+/*
+presents what augmentation methods where selected
+*/
 function showAugmentationMethods(){
 	var grayScaleChecked = document.getElementById("makeGrayScale").checked;
 	var embossChecked = document.getElementById("addEmboss").checked;
@@ -116,9 +123,7 @@ function showAugmentationMethods(){
 	if(yShearImgChecked === true){
 		document.getElementById("showYShear").innerHTML = "Apply Y-Axis Shear";
 	}
-}
 
-function showAugmentation(){
 	var augmentationDiv = document.getElementById("postAugmentation");
 	augmentationDiv.style.display = "block";
 }
