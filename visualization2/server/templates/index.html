@@ -83,7 +83,22 @@
 				</div>
 			</div>
 			<br>
-			<input type="Submit" name="startAugmentation" id="startAugmentation" value="Start"/>
+			<input type="Submit" name="confirmAugmentation" id="confirmAugmentation" onclick="showAugmentation(); showAugmentationMethods();" value="Confirm Augmentation Methods"/>
+			<br><br>
+			<div id = "postAugmentation" style="display: none">
+				<strong>Augmentation methods chosen:</strong>
+				<p id="showGrayScale" style="text-indent: 2em; font-size: 11px"></p>
+				<p id="showEmboss" style="text-indent: 2em; font-size: 11px"></p>
+				<p id="showEdgeEnhance" style="text-indent: 2em; font-size: 11px"></p>
+				<p id="showExtraEdgeEnhance" style="text-indent: 2em; font-size: 11px"></p>
+				<p id="showRGBToHSV" style="text-indent: 2em; font-size: 11px"></p>
+				<p id="showFlipImg" style="text-indent: 2em; font-size: 11px"></p>
+				<p id="showMirrorImg" style="text-indent: 2em; font-size: 11px"></p>
+				<p id="showXShear" style="text-indent: 2em; font-size: 11px"></p>
+				<p id="showYShear" style="text-indent: 2em; font-size: 11px"></p>
+				<br>
+				<input type="Submit" name="startAugmentation" id="startAugmentation" value="Start Augmentation"/>
+			</div>
 		</fieldset>
 		<fieldset>
 			<legend><h3>Step 3: Download Dataset</h3></legend>
