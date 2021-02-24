@@ -19,7 +19,7 @@ with open("static/json/video2Frames.json", "r") as python_read_file:
 
 
 #creates VideoCapture object to view the video
-vidcap = cv2.VideoCapture(os.path.join("uploads/", vid_filename))
+vidcap = cv2.VideoCapture(os.path.join("uploads/", all_data["step_1"]["vid_file"]))
 interval = 0
 
 #splits video into frames and checks if it's successful or not
@@ -46,9 +46,15 @@ for item in v2FData:
 
 json_img_type = "num"+str(object_type)
 v2FData[json_img_type] = interval
+#v2FData["vid_file"] = ""
+all_data["step_1"]["vid_file"] = ""
 
 
 #changing the json file using "dump()" function part of json
 with open("static/json/video2Frames.json", "w") as python_read_file:
 	json.dump(v2FData, python_read_file)
 	python_read_file.close()
+
+with open("static/json/data.json", "w") as main_read_file:
+	json.dump(all_data, main_read_file)
+	main_read_file.close()

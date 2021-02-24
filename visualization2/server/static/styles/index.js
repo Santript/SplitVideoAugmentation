@@ -16,10 +16,9 @@ function sendSubjectMatter(){
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
-		url: "../",
+		url: "../videotoframes",
 		traditional: "true",
 		data: JSON.stringify(subject_matter),
-		dataType: "json"
 	});
 }
 
@@ -27,6 +26,7 @@ function sendSubjectMatter(){
 /*
 Sends confirmation value to server as POST request using ajax to run py file (splitting video to frames)
 */
+/*
 function sendV2FConfirmation(){
 	var submit = document.getElementById("vidFile").value;
 	var confirmation = 0;
@@ -37,18 +37,17 @@ function sendV2FConfirmation(){
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
-		url: "../",
+		url: "../videotoframes",
 		traditional: "true",
 		data: JSON.stringify(confirmation),
-		dataType: "json"
 	});
 }
-
+*/
 
 /*
 sends the value of the checkbox and sends it to the server
 */
-function checkAugmentation(){
+function sendAugmentation(){
 
 	var grayScaleChecked = document.getElementById("makeGrayScale").checked;
 	var embossChecked = document.getElementById("addEmboss").checked;
@@ -60,23 +59,24 @@ function checkAugmentation(){
 	var xShearImgChecked = document.getElementById("xShearImg").checked;
 	var yShearImgChecked = document.getElementById("yShearImg").checked;
 
+	var allAugmentationData = {
+		"makeGrayScale": grayScaleChecked,
+		"addEmboss": embossChecked,
+		"addEdgeEnhance": edgeEnhanceChecked,
+		"addExtraEdgeEnhance": extraEdgeEnhanceChecked,
+		"convertRGBToHSV" : rgbToHSVChecked,
+		"flipImg": flipImgChecked,
+		"mirrorImg": mirrorImgChecked,
+		"xShearImg": xShearImgChecked,
+		"yShearImg": yShearImgChecked
+	}
 
 	$.ajax({
 		type: "POST",
-		url: "../",
+		url: "../augmentation",
 		traditional: "true",
 		contentType: "application/json",
-		data: {
-			"makeGrayScale": grayScaleChecked,
-			"addEmboss": embossChecked,
-			"addEdgeEnhance": edgeEnhanceChecked,
-			"addExtraEdgeEnhance": extraEdgeEnhanceChecked,
-			"convertRGBToHSV" : rgbToHSVChecked,
-			"flipImg": flipImgChecked,
-			"mirrorImg": mirrorImgChecked,
-			"xShearImg": xShearImgChecked,
-			"yShearImg": yShearImgChecked
-		},
+		data: JSON.stringify(allAugmentationData),
 		dataType: "json"
 	});
 }

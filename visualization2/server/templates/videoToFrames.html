@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!--
+		Author: Santript Sharma (2020)
+	-->
+	<title>VideoSplit Data Augmentation</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+</head>
+
+<script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
+<script type="text/javascript" src="{{ url_for('static', filename='json/data.json') }}"> </script>
+
+<body style="background-color: 	#fff">
+	<h1>VideoSplit Augmentation</h1>
+	<div class="subjectMatterCount">
+		<label># of dog images:</label>
+		<span style="padding-right: 10px" id="numDog">{{numberDog}}</span>
+		<label># of car images:</label>
+		<span style="padding-right: 10px" id="numCar">{{numberCar}}</span>
+		<label># of plane images:</label>
+		<span style="padding-right: 10px" id="numPlane">{{numberPlane}}</span>
+	</div>
+	<form method="POST" enctype="multipart/form-data">
+		<fieldset>
+			<legend><h3>Step 1: Video to Frames</h3></legend>
+			<br>
+			<label for="subjectMatter">Select video suject matter:</label>
+			<select id="first_select" onchange="sendSubjectMatter()" name="first_select">
+				<option value="">select</option>
+				<option value="numDog">Dog</option>
+				<option value="numCar">Car</option>
+				<option value="numPlane">Plane</option>
+			</select>
+			<br><br>
+			<form enctype="multipart/form-data" action="/upload" method="POST">
+				<p>Upload Video File: <input type="file" accept="video/*" name="vidFile" id="vidFile"/></p>
+				<p><input type="Submit" for="vidFile" value="Start" id="submitFile"/></p>
+				<!--<p><input type="Submit" id="runPyScript" value ="Start" onclick="sendV2FConfirmation();"/></p>-->
+				<!--<button id="runPyScript" onclick="sendV2FConfirmation();">Start</button>-->
+			</form>
+		</fieldset>
+		<fieldset>
+			<legend><h3>Description</h3></legend>
+			<h3>BLAH BLAH BLAH</h3>
+		</fieldset>
+		<div id="nextPageButton">
+			<p><a class="nextPageButtonLooks" href="{{url_for('index')}}">Next Step</a></p>
+		</div>
+	</form>
+</body>
+</html>

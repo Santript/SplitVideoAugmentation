@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!--
+		Author: Santript Sharma (2020)
+	-->
+	<title>VideoSplit Data Augmentation</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+</head>
+
+<script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
+<script type="text/javascript" src="{{ url_for('static', filename='json/data.json') }}"> </script>
+
+<body style="background-color: 	#fff">
+	<p><a class="backButton" href="{{url_for('allProcesses')}}">Back</a></p>
+	<h1>VideoSplit Augmentation</h1>
+	<div class="subjectMatterCount">
+		<label># of dog images:</label>
+		<span style="padding-right: 10px" id="numDog">{{numberDog}}</span>
+		<label># of car images:</label>
+		<span style="padding-right: 10px" id="numCar">{{numberCar}}</span>
+		<label># of plane images:</label>
+		<span style="padding-right: 10px" id="numPlane">{{numberPlane}}</span>
+	</div>
+	<fieldset>
+		<legend><h3>Step 2: Augmentation</h3></legend>
+		<p>Select the augmentation techniques: (<a href="../static/pics/augmentation/htmlcar.jpg" target="_blank">view original image</a>)</p>
+		<div class="row">
+			<div class="column">
+				<input type="checkbox" id="makeGrayScale" name="makeGrayScale"/><label for="makeGrayScale"></label>
+				<figcaption><b>Make Gray Scale</b></figcaption>
+			</div>
+			<div class="column">
+				<input type="checkbox" id="addEmboss" name="addEmboss"/><label for="addEmboss"></label>
+				<figcaption><b>Emboss Data</b></figcaption>
+			</div>
+			<div class="column">
+				<input type="checkbox" id="addEdgeEnhance" name="addEdgeEnhance"/><label for="addEdgeEnhance"></label>
+				<figcaption><b>Add Edge Enhancement</b></figcaption>
+			</div>
+			<div class="column">
+				<input type="checkbox" id="addExtraEdgeEnhance" name="addExtraEdgeEnhance"/><label for="addExtraEdgeEnhance"></label>
+				<figcaption><b>Add Extra Edge Enhancement</b></figcaption>
+			</div>
+			<div class="column">
+				<input type="checkbox" id="convertRGBToHSV" name="convertRGBToHSV"/><label for="convertRGBToHSV"></label>
+				<figcaption><b>Convert to HSV</b></figcaption>
+			</div>
+			<div class="column">
+				<input type="checkbox" id="flipImg" name="flipImg"/><label for="flipImg"></label>
+				<figcaption><b>Flip Image</b></figcaption>
+			</div>
+			<div class="column">
+				<input type="checkbox" id="mirrorImg" name="mirrorImg"/><label for="mirrorImg"></label>
+				<figcaption><b>Mirror Image</b></figcaption>
+			</div>
+			<div class="column">
+				<input type="checkbox" id="xShearImg" name="xShearImg"/><label for="xShearImg"></label>
+				<figcaption><b>Apply X-Axis Shear</b></figcaption>
+			</div>
+			<div class="column">
+				<input type="checkbox" id="yShearImg" name="yShearImg"/><label for="yShearImg"></label>
+				<figcaption><b>Apply Y-Axis Shear</b></figcaption>
+			</div>
+		</div>
+		<br>
+		<button name="confirmAugmentation" id="confirmAugmentation" onclick="showAugmentationMethods(); sendAugmentation();">Confirm Augmentation Methods</button>
+		<!--<input type="Submit" name="confirmAugmentation" id="confirmAugmentation" onclick="showAugmentationMethods(); sendAugmentation();" value="Confirm Augmentation Methods"/>-->
+		<br><br>
+		<div id = "postAugmentation" style="display: none">
+			<strong>Augmentation methods chosen:</strong>
+			<p id="showGrayScale" style="text-indent: 2em; font-size: 11px"></p>
+			<p id="showEmboss" style="text-indent: 2em; font-size: 11px"></p>
+			<p id="showEdgeEnhance" style="text-indent: 2em; font-size: 11px"></p>
+			<p id="showExtraEdgeEnhance" style="text-indent: 2em; font-size: 11px"></p>
+			<p id="showRGBToHSV" style="text-indent: 2em; font-size: 11px"></p>
+			<p id="showFlipImg" style="text-indent: 2em; font-size: 11px"></p>
+			<p id="showMirrorImg" style="text-indent: 2em; font-size: 11px"></p>
+			<p id="showXShear" style="text-indent: 2em; font-size: 11px"></p>
+			<p id="showYShear" style="text-indent: 2em; font-size: 11px"></p>
+			<br>
+			<input type="Submit" name="startAugmentation" id="startAugmentation" onclick="" value="Start Augmentation"/>
+		</div>
+	</fieldset>
+</body>
+</html>
