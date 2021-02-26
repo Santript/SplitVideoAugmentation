@@ -127,3 +127,16 @@ function showAugmentationMethods(){
 	var augmentationDiv = document.getElementById("postAugmentation");
 	augmentationDiv.style.display = "block";
 }
+
+function sendRemoveFramesConfirmation(){
+	var confirmation = "Remove Frames";
+
+	$.ajax({
+		type: "POST",
+		url: "../videotoframes",
+		traditional: "true",
+		contentType: "application/json",
+		data: JSON.stringify(confirmation),
+		dataType: "json"
+	});
+}

@@ -1,4 +1,6 @@
 from flask import *
+from preprocessing import removeSomeFrames
+
 import os
 import json
 
@@ -7,7 +9,7 @@ application = app
 
 
 #opening json file and reading content
-with open("static/json/data.json", "r") as read_file:
+with open("static/json/step_1.json", "r") as read_file:
 	crucialData = json.load(read_file)
 	subject_matter = crucialData["step_1"]["subject_matter"]
 	numDog = crucialData["step_1"]["numDog"]
@@ -33,7 +35,7 @@ def allProcesses():
 	updateSubjectMatter()
 	uploadVideoFileAndRun()
 	updateSubjectMatterJson()
-	#print(crucialData)
+	removeCloseFrames()
 
 	#writing to json file
 	#with open("static/json/data.json", "w") as read_file:
@@ -62,9 +64,12 @@ def updateSubjectMatter():
 
 		#checking if object is of none_type
 		#If it is, then the json file won't be updated
-		if sm != None and isinstance(sm, str) == True:
+		if sm != None and isinstance(sm, str) == True and len(sm.split()) == 1:
 			crucialData["step_1"]["subject_matter"] = sm
-		#print(sm)
+
+	with open("static/json/step_1.json", "w") as write_file:
+		json.dump(crucialData, write_file)
+		write_file.close()
 	#else:
 		#print("err updating subject matter")
 
@@ -82,15 +87,17 @@ def uploadVideoFileAndRun():
 			#changing json object variable
 			crucialData["step_1"]["vid_file"] = video.filename
 			#saving video in directory
-			video.save(os.path.join(app.config["VIDEO_UPLOADS"], video.filename))
-			with open("static/json/data.json", "w") as read_file:
-				json.dump(crucialData, read_file)
-				read_file.close()
+			if video.filename != "":
+				video.save(os.path.join(app.config["VIDEO_UPLOADS"], video.filename))
+				with open("static/json/step_1.json", "w") as read_file:
+					json.dump(crucialData, read_file)
+					read_file.close()
 
-			#opening videoToFrames.py and reading it
-			v2fFile = open(r'videoToFrames.py', 'r').read()
-			#executing py script
-			return exec(v2fFile)
+				#opening videoToFrames.py and reading it
+				v2fFile = open(r'videoToFrames.py', 'r').read()
+				#executing py script
+				print("Splitting video into frames-----------------------------------------")
+				return exec(v2fFile)
 
 		else:
 			print("unable to save video and execute py script")
@@ -113,9 +120,26 @@ def updateSubjectMatterJson():
 	crucialData["step_1"]["numCar"] = vid2FramesData["numCar"]
 	crucialData["step_1"]["numPlane"] = vid2FramesData["numPlane"]
 
+	with open("static/json/step_1.json", "w") as write_file:
+		json.dump(crucialData, write_file)
+		write_file.close()
+
+
+def removeCloseFrames():
+	if request.method == "POST":
+		removeFramesConfirmation = request.get_json()
+
+		if removeFramesConfirmation == "Remove Frames":
+			print("removing frames------------------------------------------------------")
+			removeSomeFrames.removeFrames()
+
 
 #receives confirmation POST request from js file and then runs videoToFrames.py, which generates all the frames and places them in dataset directory
 
+
+with open("static/json/step_2.json", "r") as read_file:
+	augmentationData = json.load(read_file)
+	read_file.close()
 
 #changes url root to /augmentation, which is the second step of the process
 @app.route("/augmentation", methods=["GET", "POST"])
@@ -145,18 +169,18 @@ def changeAugmentationMethods():
 	if request.method == "POST":
 		augmentationMethods = request.get_json()
 		
-		crucialData["step_2"]["makeGrayScale"] = augmentationMethods["makeGrayScale"]
-		crucialData["step_2"]["addEmboss"] = augmentationMethods["addEmboss"]
-		crucialData["step_2"]["addEdgeEnhance"] = augmentationMethods["addEdgeEnhance"]
-		crucialData["step_2"]["addExtraEdgeEnhance"] = augmentationMethods["addExtraEdgeEnhance"]
-		crucialData["step_2"]["convertRGBToHSV"] = augmentationMethods["convertRGBToHSV"]
-		crucialData["step_2"]["flipImg"] = augmentationMethods["flipImg"]
-		crucialData["step_2"]["mirrorImg"] = augmentationMethods["mirrorImg"]
-		crucialData["step_2"]["xShearImg"] = augmentationMethods["xShearImg"]
-		crucialData["step_2"]["yShearImg"] = augmentationMethods["yShearImg"]
+		augmentationData["step_2"]["makeGrayScale"] = augmentationMethods["makeGrayScale"]
+		augmentationData["step_2"]["addEmboss"] = augmentationMethods["addEmboss"]
+		augmentationData["step_2"]["addEdgeEnhance"] = augmentationMethods["addEdgeEnhance"]
+		augmentationData["step_2"]["addExtraEdgeEnhance"] = augmentationMethods["addExtraEdgeEnhance"]
+		augmentationData["step_2"]["convertRGBToHSV"] = augmentationMethods["convertRGBToHSV"]
+		augmentationData["step_2"]["flipImg"] = augmentationMethods["flipImg"]
+		augmentationData["step_2"]["mirrorImg"] = augmentationMethods["mirrorImg"]
+		augmentationData["step_2"]["xShearImg"] = augmentationMethods["xShearImg"]
+		augmentationData["step_2"]["yShearImg"] = augmentationMethods["yShearImg"]
 
-		with open("static/json/data.json", "w") as write_file:
-			json.dump(crucialData, write_file)
+		with open("static/json/step_2.json", "w") as write_file:
+			json.dump(augmentationData, write_file)
 			write_file.close()
 
 
