@@ -1,5 +1,6 @@
 from flask import *
 from preprocessing import removeSomeFrames
+from augmentation import fullAugmentationProcess
 
 import os
 import json
@@ -182,7 +183,11 @@ def changeAugmentationMethods():
 		with open("static/json/step_2.json", "w") as write_file:
 			json.dump(augmentationData, write_file)
 			write_file.close()
+		with open("static/json/step_2.json", "r") as read_file:
+			data = json.load(read_file)
+			read_file.close()
 
+		fullAugmentationProcess.runAugmentationMethods(data)
 
 #Running flask app on localhost 5000
 

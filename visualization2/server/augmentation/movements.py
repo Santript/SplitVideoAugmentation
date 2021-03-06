@@ -1,39 +1,63 @@
 from PIL import Image, ImageOps
 
-#test file
-file = "../testPics/htmlcar.jpg"
+import os
 
 
-"""
-Flips the image 180 degrees
+class MovementsAugmentationMethods:
 
-"""
-def flip(filename):
-	img = Image.open(filename)
-	imgFlip = ImageOps.flip(img)
+	degrees = 0
 
-	imgFlip.save('../testPics/car_flipped.jpg', quality=95)
+	def __init__(self, dirPath):
+		self.dirPath = dirPath
 
 
-"""
-Mirrors the original image
+	"""
+	Returns the directory path containing all frames
 
-"""
-def mirror(filename):
-	img = Image.open(filename)
-	imgMirror = ImageOps.mirror(img)
-
-	imgMirror.save('../testPics/car_mirrored.jpg', quality=95)
+	"""
+	def getDirPath(self):
+		return self.dirPath
 
 
-"""
-Rotates image a specified number of degrees
-"""
-def rotate(filename, degrees):
-	img = Image.open(filename)
-	imgRotate = img.rotate(degrees)
+	"""
+	Flips the image 180 degrees
 
-	imgRotate.save('../testPics/car_rotated.jpg', quality=95)
+	"""
+	def flip(self):
+		allFrames = os.listdir(self.dirPath)
 
-#flip(file)
-#mirror(file)
+		for frame in allFrames:
+			img = Image.open(os.path.join(self.dirPath, frame))
+			imgFlip = ImageOps.flip(img)
+
+			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_flipped.jpg")
+			imgFlip.save(newImgName, quality=95)
+
+
+	"""
+	Mirrors the original image
+
+	"""
+	def mirror(self):
+		allFrames = os.listdir(self.dirPath)
+
+		for frame in allFrames:
+			img = Image.open(os.path.join(self.dirPath, frame))
+			imgMirror = ImageOps.mirror(img)
+
+			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_mirrored.jpg")
+			imgMirror.save(newImgName, quality=95)
+
+
+	"""
+	Rotates image a specified number of degrees
+	"""
+	def rotate(self, degrees):
+		allFrames = os.listdir(self.dirPath)
+
+		for frame in allFrames:
+			img = Image.open(os.path.join(self.dirPath, frame))
+			imgRotate = img.rotate(degrees)
+
+			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_rotated.jpg")
+			imgRotate.save(newImgName, quality=95)
