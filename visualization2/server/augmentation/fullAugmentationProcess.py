@@ -25,48 +25,49 @@ def runAugmentationMethods(augmentationJson):
 	if grayScale:
 		grayScaleAugment = VisibilityAugmentationMethods(dirPath)
 		grayScaleAugment.makeGrayScale()
+		grayScaleAugment.updateJson()
 		print("Images converted to gray scale")
 	if emboss:
 		embossAugment = VisibilityAugmentationMethods(dirPath)
 		embossAugment.emboss()
+		embossAugment.updateJson()
 		print("Images embossed")
 	if edgeEnhance:
 		edgeEnhanceAugment = VisibilityAugmentationMethods(dirPath)
 		edgeEnhanceAugment.edgeEnhance()
+		edgeEnhanceAugment.updateJson()
 		print("Images edges enhanced")
 	if extraEdgeEnhance:
 		extraEdgeEnhanceAugment = VisibilityAugmentationMethods(dirPath)
 		extraEdgeEnhanceAugment.extraEdgeEnhance()
+		extraEdgeEnhanceAugment.updateJson()
 		print("Images edges enhanced: EXTRA!")
 	if rgbToHSV:
 		rgbToHSVAugment = VisibilityAugmentationMethods(dirPath)
 		rgbToHSVAugment.rgbToHSV()
+		rgbToHSVAugment.updateJson()
 		print("Images converted from RGB to HSV")
 	if flipImg:
 		flipImgAugment = MovementsAugmentationMethods(dirPath)
 		flipImgAugment.flip()
+		flipImgAugment.updateJson()
 		print("Images flipped")
 	if mirrorImg:
 		mirrorImgAugment = MovementsAugmentationMethods(dirPath)
 		mirrorImgAugment.mirror()
+		mirrorImgAugment.updateJson()
 		print("Images mirrored")
 	if xShearImg:
 		xShearImgAugment = VisibilityAugmentationMethods(dirPath)
 		xShearImgAugment.xAxisShear()
+		xShearImgAugment.updateJson()
 		print("Images sheared on the x-axis")
 	if yShearImg:
 		yShearImgAugment = VisibilityAugmentationMethods(dirPath)
 		yShearImgAugment.yAxisShear()
+		yShearImgAugment.updateJson()
 		print("Images sheared on the y-axis")
 
 	end_time = time.time()
 	time_taken = end_time - start_time
 	print("Augmentation Time Taken: ", round(time_taken, 2), "sec")
-
-"""
-with open("../static/json/step_2.json", "r") as read_file:
-	data = json.load(read_file)
-	read_file.close()
-
-runAugmentationMethods(data)
-"""

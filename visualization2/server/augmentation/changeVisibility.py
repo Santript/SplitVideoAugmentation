@@ -6,6 +6,7 @@ import numpy as np
 import os
 import time
 import tensorflow as tf
+import json
 
 
 
@@ -21,6 +22,10 @@ class VisibilityAugmentationMethods:
 	#for VisibilityAugmentationMethods object
 	def __init__(self, dirPath):
 		self.dirPath = dirPath
+
+		self.addedDogFrames = 0
+		self.addedCarFrames = 0
+		self.addedPlaneFrames = 0
 
 
 	def getDirPath(self):
@@ -39,6 +44,12 @@ class VisibilityAugmentationMethods:
 			imgGray = ImageOps.grayscale(img)
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_gray.jpg")
 			imgGray.save(newImgName)
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
 
 
 	"""
@@ -68,6 +79,13 @@ class VisibilityAugmentationMethods:
 			#saving image to certain directory
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_diffbright.jpg")
 			cv2.imwrite(newImgName, imgDiffBrightness)
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 		end_time = time.time()
 		time_taken = end_time - start_time
 		print("Time taken: ", round(time_taken, 2), "sec")
@@ -92,6 +110,13 @@ class VisibilityAugmentationMethods:
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_diffresolution.jpg")
 			cv2.imwrite(newImgName, imgDiffResolution)
 
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 
 	"""
 	Adding salt and pepper effect on each frame
@@ -114,6 +139,13 @@ class VisibilityAugmentationMethods:
 			#saving image
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_saltpepper.jpg")
 			cv2.imwrite(newImgName, noise_img)
+
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
 		
 
 
@@ -143,6 +175,13 @@ class VisibilityAugmentationMethods:
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_xshear.jpg")
 			cv2.imwrite(newImgName, x_axis_shearedImg)
 
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 
 
 	"""
@@ -171,6 +210,13 @@ class VisibilityAugmentationMethods:
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_yshear.jpg")
 			cv2.imwrite(newImgName, y_axis_shearedImg)
 
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 
 
 	"""
@@ -191,6 +237,13 @@ class VisibilityAugmentationMethods:
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_emboss.jpg")
 			imgEmboss.save(newImgName)
 
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 
 
 	"""
@@ -209,6 +262,13 @@ class VisibilityAugmentationMethods:
 
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_smooth.jpg")
 			imgSmooth.save(newImgName)
+
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
 
 
 
@@ -229,6 +289,13 @@ class VisibilityAugmentationMethods:
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_smoothmore.jpg")
 			imgSmooth.save(newImgName)
 
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 
 
 	"""
@@ -247,6 +314,13 @@ class VisibilityAugmentationMethods:
 
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_edgeenhance.jpg")
 			imgSmooth.save(newImgName)
+
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
 
 
 
@@ -267,6 +341,13 @@ class VisibilityAugmentationMethods:
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_edgeenhancemore.jpg")
 			imgSmooth.save(newImgName)
 
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 
 
 	"""
@@ -274,14 +355,37 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
+
 	def rgbToHSV(self):
 		allFrames = os.listdir(self.dirPath)
 
 		for frame in allFrames:
-			img = cv2.imread(os.path.join(self.dirPath,frame))
+			img = cv2.imread(os.path.join(self.dirPath, frame))
 
 			#converting RGB image to HSV
 			imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_HSV.jpg")
 			cv2.imwrite(newImgName, imgHSV)
+
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
+
+	def updateJson(self):
+		with open("static/json/video2Frames.json", "r") as read_file:
+			allData = json.load(read_file)
+			read_file.close()
+
+		allData["numDog"] += self.addedDogFrames
+		allData["numCar"] += self.addedCarFrames
+		allData["numPlane"] += self.addedPlaneFrames
+
+
+		with open("static/json/video2Frames.json", "w") as write_file:
+			json.dump(allData, write_file)
+			write_file.close()

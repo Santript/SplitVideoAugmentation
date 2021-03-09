@@ -1,6 +1,7 @@
 from PIL import Image, ImageOps
 
 import os
+import json
 
 
 class MovementsAugmentationMethods:
@@ -10,12 +11,16 @@ class MovementsAugmentationMethods:
 	def __init__(self, dirPath):
 		self.dirPath = dirPath
 
+		self.addedDogFrames = 0
+		self.addedCarFrames = 0
+		self.addedPlaneFrames = 0
+
 
 	"""
 	Returns the directory path containing all frames
 
 	"""
-	def getDirPath(self):
+	def getDirPath(self, cls):
 		return self.dirPath
 
 
@@ -33,6 +38,13 @@ class MovementsAugmentationMethods:
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_flipped.jpg")
 			imgFlip.save(newImgName, quality=95)
 
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 
 	"""
 	Mirrors the original image
@@ -48,6 +60,13 @@ class MovementsAugmentationMethods:
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_mirrored.jpg")
 			imgMirror.save(newImgName, quality=95)
 
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
 
 	"""
 	Rotates image a specified number of degrees
@@ -61,3 +80,23 @@ class MovementsAugmentationMethods:
 
 			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_rotated.jpg")
 			imgRotate.save(newImgName, quality=95)
+
+			if "Car" in frame:
+				self.addedCarFrames+=1
+			if "Dog" in frame:
+				self.addedDogFrames+=1
+			if "Plane" in frame:
+				self.addedPlaneFrames+=1
+
+	def updateJson(self):
+		with open("static/json/video2Frames.json", "r") as read_file:
+			allData = json.load(read_file)
+			read_file.close()
+
+		allData["numDog"] += self.addedDogFrames
+		allData["numCar"] += self.addedCarFrames
+		allData["numPlane"] += self.addedPlaneFrames
+
+		with open("static/json/video2Frames.json", "w") as write_file:
+			json.dump(allData, write_file)
+			write_file.close()
