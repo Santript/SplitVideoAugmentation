@@ -12,7 +12,7 @@ file = "../testPics/car.jpeg"
 Resizes an image with a base width of 200 and a certain height that maintains aspect ratio of the inputted image
 
 """
-def resize(filename, baseWidth=200):
+def resize(filename, baseWidth):
 	img = Image.open(filename)
 
 	#printing the original size of the inputted image

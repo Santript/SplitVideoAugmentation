@@ -189,6 +189,21 @@ def changeAugmentationMethods():
 
 		fullAugmentationProcess.runAugmentationMethods(data)
 
+@app.route("/preprocess", methods=["GET", "POST"])
+
+def allPreprocess():
+	temp_data = {
+		'numberDog': numDog,
+		'numberCar': numCar,
+		'numberPlane': numPlane
+	}
+
+	if request.method == "POST":
+		return redirect(url_for('index'))
+
+	return render_template("preprocess.html", **temp_data)
+
+
 #Running flask app on localhost 5000
 
 if __name__ == '__main__':

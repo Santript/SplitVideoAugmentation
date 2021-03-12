@@ -4,6 +4,7 @@ from augmentation.movements import MovementsAugmentationMethods
 import json
 import os
 import time
+import shutil
 
 
 def runAugmentationMethods(augmentationJson):
@@ -68,6 +69,17 @@ def runAugmentationMethods(augmentationJson):
 		yShearImgAugment.updateJson()
 		print("Images sheared on the y-axis")
 
+	print("Moving Original Images")
+	moveOriginalImages('dataset/', 'augmentedDataset/')
+
+
 	end_time = time.time()
 	time_taken = end_time - start_time
 	print("Augmentation Time Taken: ", round(time_taken, 2), "sec")
+
+
+def moveOriginalImages(originalDirPath, finalDirPath):
+	fileNames = os.listdir(originalDirPath)
+
+	for fileName in fileNames:
+		shutil.move(os.path.join(originalDirPath, fileName), finalDirPath)

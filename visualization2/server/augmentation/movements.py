@@ -87,6 +87,16 @@ class MovementsAugmentationMethods:
 				self.addedDogFrames+=1
 			if "Plane" in frame:
 				self.addedPlaneFrames+=1
+				
+
+	def updateAddedVariables(self):
+		if "Car" in frame:
+			self.addedCarFrames+=1
+		if "Dog" in frame:
+			self.addedDogFrames+=1
+		if "Plane" in frame:
+			self.addedPlaneFrames+=1
+
 
 	def updateJson(self):
 		with open("static/json/video2Frames.json", "r") as read_file:

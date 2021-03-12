@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!--
+		Author: Santript Sharma (2020)
+	-->
+	<title>VideoSplit Data Augmentation</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+</head>
+
+<script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
+<script type="text/javascript" src="{{ url_for('static', filename='json/data.json') }}"> </script>
+
+<body style="background-color: 	#fff">
+	<p><a class="backButton" href="{{url_for('index')}}">Back</a></p>
+	<h1>VideoSplit Augmentation</h1>
+	<div class="subjectMatterCount">
+		<label># of dog images:</label>
+		<span style="padding-right: 10px" id="numDog">{{numberDog}}</span>
+		<label># of car images:</label>
+		<span style="padding-right: 10px" id="numCar">{{numberCar}}</span>
+		<label># of plane images:</label>
+		<span style="padding-right: 10px" id="numPlane">{{numberPlane}}</span>
+	</div>
+	<form>
+		<fieldset>
+			<legend><h3>Step 3: Preprocessing</h3></legend>
+			<h3>Resizing</h3>
+			<p>
+				<label>Enter Base Width for Images</label>
+				<input type="baseWidth" name="baseWidth" value=""/>
+			</p>
+			<button>Confirm</button>
+		</fieldset>
+	</form>
+</body>
+</html>
