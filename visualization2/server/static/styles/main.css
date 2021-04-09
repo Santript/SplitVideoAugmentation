@@ -73,9 +73,6 @@ button {
 	right: 10px;
 }
 
-input[type=checkbox] {
-	display:none;
-}
 
 input#makeGrayScale[type=checkbox] + label{
 	background-image: url("../pics/augmentation/car_gray.jpg");

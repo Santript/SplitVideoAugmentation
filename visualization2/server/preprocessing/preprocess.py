@@ -10,9 +10,9 @@ file = "../testPics/car.jpeg"
 
 """
 Resizes an image with a base width of 200 and a certain height that maintains aspect ratio of the inputted image
-
 """
-def resize(filename, baseWidth):
+
+def resizeAspectRatio(filename, baseWidth):
 	img = Image.open(filename)
 
 	#printing the original size of the inputted image
@@ -35,6 +35,10 @@ def resize(filename, baseWidth):
 	#saving image in a certain directory
 	imgResized.save('../testPics/car_resized.jpg', quality=95)
 
+def resize(filename, size):
+	image = cv2.imread(filename)
+	image = cv2.resize(image, (size, size))
+
 def normalize(filename):
 	#reading image
 	img = cv2.imread(filename)
@@ -42,5 +46,6 @@ def normalize(filename):
 	final_img = cv2.normalize(img, normalized_img, 0, 255, cv2.NORM_MINMAX)
 	cv2.imwrite("../testPics/car_normalized.jpg", final_img)
 
-#resize(file)
-#normalize(file)
+def deNoise(image):
+	blur = cv2.GaussianBlur(image, (5, 5), 0)
+	return blur
