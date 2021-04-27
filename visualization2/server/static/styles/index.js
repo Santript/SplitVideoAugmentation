@@ -140,3 +140,16 @@ function sendRemoveFramesConfirmation(){
 		dataType: "json"
 	});
 }
+
+function sendZipConfirmation(){
+	var confirmation = "Create Zipfile";
+
+	$.ajax({
+		type: "POST",
+		url: "../preprocess",
+		traditional: "true",
+		contentType: "application/json",
+		data: JSON.stringify(confirmation),
+		dataType: "json"
+	});
+}

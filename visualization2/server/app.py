@@ -4,6 +4,10 @@ from augmentation import fullAugmentationProcess
 
 import os
 import json
+import log
+import downloadZip
+import pathlib
+import zipfile
 
 app = Flask(__name__)
 application = app
@@ -97,11 +101,11 @@ def uploadVideoFileAndRun():
 				#opening videoToFrames.py and reading it
 				v2fFile = open(r'videoToFrames.py', 'r').read()
 				#executing py script
-				print("Splitting video into frames-----------------------------------------")
+				log.LOG_INFO("Splitting video into frames-----------------------------------------")
 				return exec(v2fFile)
 
 		else:
-			print("unable to save video and execute py script")
+			log.LOG_INFO("unable to save video and execute py script")
 
 		#checking if POST request was received
 		
@@ -131,7 +135,7 @@ def removeCloseFrames():
 		removeFramesConfirmation = request.get_json()
 
 		if removeFramesConfirmation == "Remove Frames":
-			print("removing frames------------------------------------------------------")
+			log.LOG_INFO("removing frames------------------------------------------------------")
 			removeSomeFrames.removeFrames()
 
 
@@ -189,20 +193,45 @@ def changeAugmentationMethods():
 
 		fullAugmentationProcess.runAugmentationMethods(data)
 
+
 @app.route("/preprocess", methods=["GET", "POST"])
 
 def allPreprocess():
+	createZip()
+
 	temp_data = {
 		'numberDog': numDog,
 		'numberCar': numCar,
 		'numberPlane': numPlane
 	}
 
-	if request.method == "POST":
-		return redirect(url_for('index'))
+	#if request.method == "POST":
+	#	return redirect(url_for('index'))
 
 	return render_template("preprocess.html", **temp_data)
 
+#creates the zipfile from the augmentedDataset directory
+def createZip():
+	zipFile = pathlib.Path("test.zip")
+	if zipFile.exists():
+		log.LOG_INFO("Zipfile Exists")
+	else:
+		if request.method == "POST":
+			zipFileConf = request.get_json()
+			if zipFileConf == "Create Zipfile":
+				log.LOG_INFO("Zipping Dataset")
+				downloadZip.zipDirectory('augmentedDataset/')
+				log.LOG_INFO("zipfile generated successfully")
+
+				#return send_file('dataset.zip', mimetype='application/zip', as_attachment=True, attachment_filename='dataset.zip')
+
+@app.route("/downloadZip/")
+
+#Sending zipfile of dataset to user
+def download_file():
+	filename = 'dataset.zip'
+	log.LOG_INFO("Sending zip file")
+	return send_file(filename, as_attachment=True)
 
 #Running flask app on localhost 5000
 

@@ -25,7 +25,7 @@
 		<label># of plane images:</label>
 		<span style="padding-right: 10px" id="numPlane">{{numberPlane}}</span>
 	</div>
-	<form>
+	<form method="POST" enctype="multipart/form-data">
 		<fieldset>
 			<legend><h3>Step 3: Preprocessing</h3></legend>
 			<h3>Resizing</h3>
@@ -46,6 +46,9 @@
 			<input type="checkbox" name="bgr" id="bgr">
 			<label for="rgb">BGR</label>
 		</fieldset>
+		<button onclick="sendZipConfirmation();">Generate ZipFile</button>
 	</form>
+	<br>
+	<a href="{{url_for('download_file')}}" target="blank"><button>Download</button></a>
 </body>
 </html>
