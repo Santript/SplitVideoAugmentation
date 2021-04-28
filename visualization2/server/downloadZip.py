@@ -16,7 +16,7 @@ def getFileNames(directoryPath):
 def zipDirectory(directoryPath):
 	filePaths = getFileNames(directoryPath)
 
-	zip_file = zipfile.ZipFile('dataset.zip', 'w')
+	zip_file = zipfile.ZipFile('dataset.zip', 'w', zipfile.ZIP_DEFLATED)
 	with zip_file:
 		for file in filePaths:
 			zip_file.write(file)

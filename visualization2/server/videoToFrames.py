@@ -29,7 +29,7 @@ while(vidcap.isOpened()):
 	if(determine == False):
 		break
 	#saves all frames in the "frames" directory in the "outputs" directory
-	cv2.imwrite('dataset/'+str(object_type)+os.path.splitext(vid_filename)[0]+str(interval)+'.jpg', frame)
+	cv2.imwrite('dataset/'+str(object_type) + "_" + os.path.splitext(vid_filename)[0]+str(interval)+'.jpg', frame)
 	interval+=1
 #ends VideoCapture and displays time taken
 vidcap.release()
@@ -52,9 +52,9 @@ all_data["step_1"]["vid_file"] = ""
 
 #changing the json file using "dump()" function part of json
 with open("static/json/video2Frames.json", "w") as python_read_file:
-	json.dump(v2FData, python_read_file)
+	json.dump(v2FData, python_read_file, indent=2)
 	python_read_file.close()
 
 with open("static/json/step_1.json", "w") as main_read_file:
-	json.dump(all_data, main_read_file)
+	json.dump(all_data, main_read_file, indent=2)
 	main_read_file.close()

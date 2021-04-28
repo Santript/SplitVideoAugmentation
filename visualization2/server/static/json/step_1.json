@@ -1,1 +1,9 @@
-{"step_1": {"vid_file": "MovingPeople.mp4", "subject_matter": "Dog", "numDog": 3665, "numCar": 2005, "numPlane": 1245}}
+{
+  "step_1": {
+    "vid_file": "myfile.mp4",
+    "subject_matter": "Plane",
+    "numDog": 0,
+    "numCar": 0,
+    "numPlane": 0
+  }
+}

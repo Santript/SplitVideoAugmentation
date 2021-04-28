@@ -35,7 +35,7 @@ class MovementsAugmentationMethods:
 			img = Image.open(os.path.join(self.dirPath, frame))
 			imgFlip = ImageOps.flip(img)
 
-			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_flipped.jpg")
+			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_flipped.jpg")
 			imgFlip.save(newImgName, quality=95)
 
 			if "Car" in frame:
@@ -57,7 +57,7 @@ class MovementsAugmentationMethods:
 			img = Image.open(os.path.join(self.dirPath, frame))
 			imgMirror = ImageOps.mirror(img)
 
-			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_mirrored.jpg")
+			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_mirrored.jpg")
 			imgMirror.save(newImgName, quality=95)
 
 			if "Car" in frame:
@@ -78,7 +78,7 @@ class MovementsAugmentationMethods:
 			img = Image.open(os.path.join(self.dirPath, frame))
 			imgRotate = img.rotate(degrees)
 
-			newImgName = os.path.join("augmentedDataset/", os.path.splitext(frame)[0] + "_rotated.jpg")
+			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_rotated.jpg")
 			imgRotate.save(newImgName, quality=95)
 
 			if "Car" in frame:
@@ -108,5 +108,5 @@ class MovementsAugmentationMethods:
 		allData["numPlane"] += self.addedPlaneFrames
 
 		with open("static/json/video2Frames.json", "w") as write_file:
-			json.dump(allData, write_file)
+			json.dump(allData, write_file, indent=2)
 			write_file.close()

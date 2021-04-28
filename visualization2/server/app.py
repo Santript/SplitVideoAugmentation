@@ -73,7 +73,7 @@ def updateSubjectMatter():
 			crucialData["step_1"]["subject_matter"] = sm
 
 	with open("static/json/step_1.json", "w") as write_file:
-		json.dump(crucialData, write_file)
+		json.dump(crucialData, write_file, indent=2)
 		write_file.close()
 	#else:
 		#print("err updating subject matter")
@@ -95,7 +95,7 @@ def uploadVideoFileAndRun():
 			if video.filename != "":
 				video.save(os.path.join(app.config["VIDEO_UPLOADS"], video.filename))
 				with open("static/json/step_1.json", "w") as read_file:
-					json.dump(crucialData, read_file)
+					json.dump(crucialData, read_file, indent=2)
 					read_file.close()
 
 				#opening videoToFrames.py and reading it
@@ -126,7 +126,7 @@ def updateSubjectMatterJson():
 	crucialData["step_1"]["numPlane"] = vid2FramesData["numPlane"]
 
 	with open("static/json/step_1.json", "w") as write_file:
-		json.dump(crucialData, write_file)
+		json.dump(crucialData, write_file, indent=2)
 		write_file.close()
 
 
@@ -185,7 +185,7 @@ def changeAugmentationMethods():
 		augmentationData["step_2"]["yShearImg"] = augmentationMethods["yShearImg"]
 
 		with open("static/json/step_2.json", "w") as write_file:
-			json.dump(augmentationData, write_file)
+			json.dump(augmentationData, write_file, indent=2)
 			write_file.close()
 		with open("static/json/step_2.json", "r") as read_file:
 			data = json.load(read_file)
