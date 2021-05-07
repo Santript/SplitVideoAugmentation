@@ -1,1 +1,13 @@
-{"step_2": {"makeGrayScale": true, "addEmboss": false, "addEdgeEnhance": false, "addExtraEdgeEnhance": false, "convertRGBToHSV": false, "flipImg": false, "mirrorImg": true, "xShearImg": false, "yShearImg": false}}
+{
+  "step_2": {
+    "makeGrayScale": true,
+    "addEmboss": false,
+    "addEdgeEnhance": false,
+    "addExtraEdgeEnhance": false,
+    "convertRGBToHSV": false,
+    "flipImg": false,
+    "mirrorImg": true,
+    "xShearImg": false,
+    "yShearImg": false
+  }
+}

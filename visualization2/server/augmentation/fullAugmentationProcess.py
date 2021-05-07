@@ -6,9 +6,9 @@ import os
 import time
 import shutil
 import log
+import random
 
-
-def runAugmentationMethods(augmentationJson):
+def runAugmentationMethods(augmentationJson, sm):
 	step2Data = augmentationJson["step_2"]
 	dirPath = "dataset/"
 
@@ -26,92 +26,112 @@ def runAugmentationMethods(augmentationJson):
 
 	start_time = time.time()
 	if grayScale:
-		grayScaleAugment = VisibilityAugmentationMethods(dirPath)
+		grayScaleAugment = VisibilityAugmentationMethods(dirPath, sm)
 		grayScaleAugment.makeGrayScale()
 		grayScaleAugment.updateJson()
 		log.LOG_INFO("Images converted to gray scale")
 	if emboss:
-		embossAugment = VisibilityAugmentationMethods(dirPath)
+		embossAugment = VisibilityAugmentationMethods(dirPath, sm)
 		embossAugment.emboss()
 		embossAugment.updateJson()
 		log.LOG_INFO("Images embossed")
 	if edgeEnhance:
-		edgeEnhanceAugment = VisibilityAugmentationMethods(dirPath)
+		edgeEnhanceAugment = VisibilityAugmentationMethods(dirPath, sm)
 		edgeEnhanceAugment.edgeEnhance()
 		edgeEnhanceAugment.updateJson()
 		log.LOG_INFO("Images edges enhanced")
 	if extraEdgeEnhance:
-		extraEdgeEnhanceAugment = VisibilityAugmentationMethods(dirPath)
+		extraEdgeEnhanceAugment = VisibilityAugmentationMethods(dirPath, sm)
 		extraEdgeEnhanceAugment.extraEdgeEnhance()
 		extraEdgeEnhanceAugment.updateJson()
 		log.LOG_INFO("Images edges enhanced: EXTRA!")
 	if rgbToHSV:
-		rgbToHSVAugment = VisibilityAugmentationMethods(dirPath)
+		rgbToHSVAugment = VisibilityAugmentationMethods(dirPath, sm)
 		rgbToHSVAugment.rgbToHSV()
 		rgbToHSVAugment.updateJson()
 		log.LOG_INFO("Images converted from RGB to HSV")
 	if flipImg:
-		flipImgAugment = MovementsAugmentationMethods(dirPath)
+		flipImgAugment = MovementsAugmentationMethods(dirPath, sm)
 		flipImgAugment.flip()
 		flipImgAugment.updateJson()
 		log.LOG_INFO("Images flipped")
 	if mirrorImg:
-		mirrorImgAugment = MovementsAugmentationMethods(dirPath)
+		mirrorImgAugment = MovementsAugmentationMethods(dirPath, sm)
 		mirrorImgAugment.mirror()
 		mirrorImgAugment.updateJson()
 		log.LOG_INFO("Images mirrored")
 	if xShearImg:
-		xShearImgAugment = VisibilityAugmentationMethods(dirPath)
+		xShearImgAugment = VisibilityAugmentationMethods(dirPath, sm)
 		xShearImgAugment.xAxisShear()
 		xShearImgAugment.updateJson()
 		log.LOG_INFO("Images sheared on the x-axis")
 	if yShearImg:
-		yShearImgAugment = VisibilityAugmentationMethods(dirPath)
+		yShearImgAugment = VisibilityAugmentationMethods(dirPath, sm)
 		yShearImgAugment.yAxisShear()
 		yShearImgAugment.updateJson()
 		log.LOG_INFO("Images sheared on the y-axis")
 
-	log.LOG_INFO("Moving Original Images")
-	moveOriginalImages('dataset/', 'augmentedDataset/')
+	log.LOG_INFO("Moving Images")
+
+	moveDataset(sm, 0.8)
 
 
 	end_time = time.time()
 	time_taken = end_time - start_time
 	log.LOG_INFO("Augmentation Time Taken: ", round(time_taken, 2), "sec")
 
+def moveDataset(subjectMatter, trainPercentage):
+	hasDog, hasCar, hasPlane = False, False, False
 
-def moveOriginalImages(originalDirPath, finalDirPath):
-	subjectMatters = ["Dog", "Car", "Plane"]
-	makeDog, makeCar, makePlane = False, False, False
+	if 'Dog' in subjectMatter:
+		dogDirectory = os.listdir('dataset/Dog')
+		totalDog = len(dogDirectory)
+		hasDog = True
+	if 'Car' in subjectMatter:
+		carDirectory = os.listdir('dataset/Car')
+		totalCar = len(carDirectory)
+		hasCar = True
+	if 'Plane' in subjectMatter:
+		planeDirectory = os.listdir('dataset/Plane')
+		totalPlane = len(planeDirectory)
+		hasPlane = True
 
-	fileNames = os.listdir(originalDirPath)
+	if hasDog:
+		dog_train_index = int(trainPercentage * len(dogDirectory))
+		random.shuffle(dogDirectory)
+		index = 0
 
-	for fileName in fileNames:
-		if fileName.split("_")[0] == "Dog":
-			makeDog = True
-		elif fileName.split("_")[0] == "Car":
-			makeCar = True
-		else:
-			makePlane = True
+		while index < dog_train_index:
+			shutil.move(os.path.join('dataset/Dog', dogDirectory[index]), os.path.join('augmentedDataset/train/Dog/', dogDirectory[index]))
+			index +=1
 
-		if makeDog == True and makeCar == True and makePlane == True:
-			break
+		while index < len(dogDirectory):
+			shutil.move(os.path.join('dataset/Dog', dogDirectory[index]), os.path.join('augmentedDataset/validation/Dog/', dogDirectory[index]))
+			index += 1
 
-	if makeDog:
-		os.mkdir("augmentedDataset/Dog/")
-	if makeCar:
-		os.mkdir("augmentedDataset/Car/")
-	if makePlane:
-		os.mkdir("augmentedDataset/Plane/")
+	if hasCar:
+		car_train_index = int(trainPercentage * len(carDirectory))
+		random.shuffle(carDirectory)
+		index = 0
 
-	specific_path = ""
-	for fileName in fileNames:
-		if fileName.split('_')[0] == "Dog":
-			specific_path = os.path.join(os.path.join(finalDirPath, 'Dog/'), fileName)
-		elif fileName.split('_')[0] == "Car":
-			specific_path = os.path.join(os.path.join(finalDirPath, 'Car/'), fileName)
-		else:
-			specific_path = os.path.join(os.path.join(finalDirPath, 'Plane/'), fileName)
+		while index < car_train_index:
+			shutil.move(os.path.join('dataset/Car', carDirectory[index]), os.path.join('augmentedDataset/train/Car/', carDirectory[index]))
+			index +=1
 
-		#print(specific_path)
-		shutil.move(os.path.join(originalDirPath, fileName), specific_path)
+		while index < len(carDirectory):
+			shutil.move(os.path.join('dataset/Car', carDirectory[index]), os.path.join('augmentedDataset/validation/Car/', carDirectory[index]))
+			index += 1
+
+
+	if hasPlane:
+		plane_train_index = int(trainPercentage * len(planeDirectory))
+		random.shuffle(planeDirectory)
+		index = 0
+
+		while index < plane_train_index:
+			shutil.move(os.path.join('dataset/Plane', planeDirectory[index]), os.path.join('augmentedDataset/train/Plane/', planeDirectory[index]))
+			index +=1
+
+		while index < len(planeDirectory):
+			shutil.move(os.path.join('dataset/Plane', planeDirectory[index]), os.path.join('augmentedDataset/validation/Plane/', planeDirectory[index]))
+			index += 1

@@ -20,8 +20,9 @@ class VisibilityAugmentationMethods:
 	spAmount = 0
 
 	#for VisibilityAugmentationMethods object
-	def __init__(self, dirPath):
+	def __init__(self, dirPath, smList):
 		self.dirPath = dirPath
+		self.smList = smList
 
 		self.addedDogFrames = 0
 		self.addedCarFrames = 0
@@ -38,18 +39,20 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def makeGrayScale(self):
-		allFrames = os.listdir(self.dirPath)
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath,frame))
-			imgGray = ImageOps.grayscale(img)
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_gray.jpg")
-			imgGray.save(newImgName)
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
+				imgGray = ImageOps.grayscale(img)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_gray.jpg")
+				imgGray.save(newImgName)
+				
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 	"""
@@ -59,36 +62,37 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def changeContrastBrightness(self, contrastControl, brightnessControl):
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			start_time = time.time()
 
-		allFrames = os.listdir(self.dirPath)
-		start_time = time.time()
+			for frame in allFrames:
+				#reading image
+				img = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
 
-		for frame in allFrames:
-			#reading image
-			img = cv2.imread(os.path.join(self.dirPath, frame))
+				#copying inputted image shape
+				imgDiffBrightness = np.zeros(img.shape, img.dtype)
 
-			#copying inputted image shape
-			imgDiffBrightness = np.zeros(img.shape, img.dtype)
+				#changing the brightness and contrast
+				for y in range(img.shape[0]):
+					for x in range(img.shape[1]):
+						for c in range(img.shape[2]):
+							imgDiffBrightness[y,x,c] = np.clip(contrastControl*img[y,x,c] + brightnessControl, 0, 255)
 
-			#changing the brightness and contrast
-			for y in range(img.shape[0]):
-				for x in range(img.shape[1]):
-					for c in range(img.shape[2]):
-						imgDiffBrightness[y,x,c] = np.clip(contrastControl*img[y,x,c] + brightnessControl, 0, 255)
+				#saving image to certain directory
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_diffbright.jpg")
+				cv2.imwrite(newImgName, imgDiffBrightness)
+				
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
-			#saving image to certain directory
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_diffbright.jpg")
-			cv2.imwrite(newImgName, imgDiffBrightness)
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
-
-		end_time = time.time()
-		time_taken = end_time - start_time
-		print("Time taken: ", round(time_taken, 2), "sec")
+			end_time = time.time()
+			time_taken = end_time - start_time
+			print("Time taken: ", round(time_taken, 2), "sec")
 
 
 
@@ -98,24 +102,24 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def addBlur(self, blur_x, blur_y):
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		allFrames = os.listdir(self.dirPath)
+			for frame in allFrames:
+				#reading image
+				img = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
+				#creating new image with slight blur
+				imgDiffResolution = cv2.GaussianBlur(img, (blur_x,blur_y), 0)
+				#saving new image to certain directory
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_diffresolution.jpg")
+				cv2.imwrite(newImgName, imgDiffResolution)
 
-		for frame in allFrames:
-			#reading image
-			img = cv2.imread(os.path.join(self.dirPath, frame))
-			#creating new image with slight blur
-			imgDiffResolution = cv2.GaussianBlur(img, (blur_x,blur_y), 0)
-			#saving new image to certain directory
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_diffresolution.jpg")
-			cv2.imwrite(newImgName, imgDiffResolution)
-
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 	"""
@@ -124,28 +128,28 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def addSaltAndPepper(self, amount):
+		for sm in smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		allFrames = os.listdir(self.dirPath)
+			for frame in allFrames:
+				#reading image
+				img = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
 
-		for frame in allFrames:
-			#reading image
-			img = cv2.imread(os.path.join(self.dirPath, frame))
+				#adding random noise and salt & pepper to image with specified amount
+				noise_img = random_noise(img, mode='s&p',amount=amount)
+				#changed it to 'uint8' and from [0,255]
+				noise_img = np.array(255*noise_img, dtype = 'uint8')
 
-			#adding random noise and salt & pepper to image with specified amount
-			noise_img = random_noise(img, mode='s&p',amount=amount)
-			#changed it to 'uint8' and from [0,255]
-			noise_img = np.array(255*noise_img, dtype = 'uint8')
+				#saving image
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_saltpepper.jpg")
+				cv2.imwrite(newImgName, noise_img)
 
-			#saving image
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_saltpepper.jpg")
-			cv2.imwrite(newImgName, noise_img)
-
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 		
 
 
@@ -155,32 +159,32 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def xAxisShear(self):
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		allFrames = os.listdir(self.dirPath)
+			for frame in allFrames:
+				#reading image
+				img = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
+				rows, cols, dim = img.shape
 
-		for frame in allFrames:
-			#reading image
-			img = cv2.imread(os.path.join(self.dirPath, frame))
-			rows, cols, dim = img.shape
+				#transformation matrix for x-axis shearing
+				M = np.float32([[1, 0.5, 0],
+			             	    [0, 1  , 0],
+			            	    [0, 0 , 1]])
 
-			#transformation matrix for x-axis shearing
-			M = np.float32([[1, 0.5, 0],
-		             	    [0, 1  , 0],
-		            	    [0, 0 , 1]])
+				#applying perspective transformation to image
+				x_axis_shearedImg = cv2.warpPerspective(img,M,(int(cols*1.5),int(rows*1.5)))
 
-			#applying perspective transformation to image
-			x_axis_shearedImg = cv2.warpPerspective(img,M,(int(cols*1.5),int(rows*1.5)))
+				#saving sheared image
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_xshear.jpg")
+				cv2.imwrite(newImgName, x_axis_shearedImg)
 
-			#saving sheared image
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_xshear.jpg")
-			cv2.imwrite(newImgName, x_axis_shearedImg)
-
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 
@@ -190,32 +194,32 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def yAxisShear(self):
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		allFrames = os.listdir(self.dirPath)
+			for frame in allFrames:
+				#reading image
+				img = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
+				rows, cols, dim = img.shape
 
-		for frame in allFrames:
-			#reading image
-			img = cv2.imread(os.path.join(self.dirPath, frame))
-			rows, cols, dim = img.shape
+				#transformation matrix for y-axis shearing
+				M = np.float32([[1,   0, 0],
+			             	    [0.5, 1, 0],
+			             	    [0,   0, 1]])
 
-			#transformation matrix for y-axis shearing
-			M = np.float32([[1,   0, 0],
-		             	    [0.5, 1, 0],
-		             	    [0,   0, 1]])
+				#applying perspective transformation to image
+				y_axis_shearedImg = cv2.warpPerspective(img,M,(int(cols*1.5),int(rows*1.5)))
 
-			#applying perspective transformation to image
-			y_axis_shearedImg = cv2.warpPerspective(img,M,(int(cols*1.5),int(rows*1.5)))
+				#saving sheared image
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_yshear.jpg")
+				cv2.imwrite(newImgName, y_axis_shearedImg)
 
-			#saving sheared image
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_yshear.jpg")
-			cv2.imwrite(newImgName, y_axis_shearedImg)
-
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 
@@ -225,24 +229,24 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def emboss(self):
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		allFrames = os.listdir(self.dirPath)
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
 
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath, frame))
+				#embossing inputted image
+				imgEmboss = img.filter(ImageFilter.EMBOSS)
 
-			#embossing inputted image
-			imgEmboss = img.filter(ImageFilter.EMBOSS)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_emboss.jpg")
+				imgEmboss.save(newImgName)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_emboss.jpg")
-			imgEmboss.save(newImgName)
-
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 
@@ -252,23 +256,24 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def smooth(self):
-		allFrames = os.listdir(self.dirPath)
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath, frame))
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
 
-			#adding smoothening filter from ImageFilter library
-			imgSmooth = img.filter(ImageFilter.SMOOTH)
+				#adding smoothening filter from ImageFilter library
+				imgSmooth = img.filter(ImageFilter.SMOOTH)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_smooth.jpg")
-			imgSmooth.save(newImgName)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_smooth.jpg")
+				imgSmooth.save(newImgName)
 
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 
@@ -278,23 +283,24 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def extraSmooth(self):
-		allFrames = os.listdir(self.dirPath)
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath, frame))
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
 
-			#adding extra smoothening filter from ImageFilter library
-			imgSmooth = img.filter(ImageFilter.SMOOTH_MORE)
+				#adding extra smoothening filter from ImageFilter library
+				imgSmooth = img.filter(ImageFilter.SMOOTH_MORE)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_smoothmore.jpg")
-			imgSmooth.save(newImgName)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_smoothmore.jpg")
+				imgSmooth.save(newImgName)
 
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 
@@ -304,23 +310,24 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def edgeEnhance(self):
-		allFrames = os.listdir(self.dirPath)
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath, frame))
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
 
-			#adding extra smoothening filter from ImageFilter library
-			imgSmooth = img.filter(ImageFilter.EDGE_ENHANCE)
+				#adding extra smoothening filter from ImageFilter library
+				imgSmooth = img.filter(ImageFilter.EDGE_ENHANCE)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_edgeenhance.jpg")
-			imgSmooth.save(newImgName)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_edgeenhance.jpg")
+				imgSmooth.save(newImgName)
 
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 
@@ -330,23 +337,24 @@ class VisibilityAugmentationMethods:
 
 	"""
 	def extraEdgeEnhance(self):
-		allFrames = os.listdir(self.dirPath)
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath, frame))
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
 
-			#adding extra smoothening filter from ImageFilter library
-			imgSmooth = img.filter(ImageFilter.EDGE_ENHANCE_MORE)
+				#adding extra smoothening filter from ImageFilter library
+				imgSmooth = img.filter(ImageFilter.EDGE_ENHANCE_MORE)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_edgeenhancemore.jpg")
-			imgSmooth.save(newImgName)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_edgeenhancemore.jpg")
+				imgSmooth.save(newImgName)
 
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 
@@ -357,23 +365,24 @@ class VisibilityAugmentationMethods:
 	"""
 
 	def rgbToHSV(self):
-		allFrames = os.listdir(self.dirPath)
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		for frame in allFrames:
-			img = cv2.imread(os.path.join(self.dirPath, frame))
+			for frame in allFrames:
+				img = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
 
-			#converting RGB image to HSV
-			imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+				#converting RGB image to HSV
+				imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_HSV.jpg")
-			cv2.imwrite(newImgName, imgHSV)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_HSV.jpg")
+				cv2.imwrite(newImgName, imgHSV)
 
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 	def updateJson(self):

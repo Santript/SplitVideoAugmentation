@@ -1,6 +1,7 @@
 from flask import *
 from preprocessing import removeSomeFrames
 from augmentation import fullAugmentationProcess
+from augmentation import augmentationUtils
 
 import os
 import json
@@ -22,6 +23,8 @@ with open("static/json/step_1.json", "r") as read_file:
 	numPlane = crucialData["step_1"]["numPlane"]
 
 	read_file.close()
+
+sm_list = []
 
 
 #directory where all videos will be uploaded into
@@ -87,6 +90,10 @@ def uploadVideoFileAndRun():
 	#checking if POST request was received
 	if request.method == 'POST':
 		if request.files:
+			#create proper directories for augmentation and final dataset
+			sm_list.append(crucialData['step_1']['subject_matter'])
+			augmentationUtils.createDirectories(crucialData['step_1']['subject_matter'])
+
 			#print(request.files["vidFile"])
 			video = request.files["vidFile"]
 			#changing json object variable
@@ -191,7 +198,7 @@ def changeAugmentationMethods():
 			data = json.load(read_file)
 			read_file.close()
 
-		fullAugmentationProcess.runAugmentationMethods(data)
+		fullAugmentationProcess.runAugmentationMethods(data, sm_list)
 
 
 @app.route("/preprocess", methods=["GET", "POST"])

@@ -29,7 +29,7 @@ while(vidcap.isOpened()):
 	if(determine == False):
 		break
 	#saves all frames in the "frames" directory in the "outputs" directory
-	cv2.imwrite('dataset/'+str(object_type) + "_" + os.path.splitext(vid_filename)[0]+str(interval)+'.jpg', frame)
+	cv2.imwrite(os.path.join('dataset/', str(object_type)) + '/' + str(object_type) + "_" + os.path.splitext(vid_filename)[0]+str(interval)+'.jpg', frame)
 	interval+=1
 #ends VideoCapture and displays time taken
 vidcap.release()

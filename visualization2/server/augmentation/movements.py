@@ -8,8 +8,9 @@ class MovementsAugmentationMethods:
 
 	degrees = 0
 
-	def __init__(self, dirPath):
+	def __init__(self, dirPath, smList):
 		self.dirPath = dirPath
+		self.smList = smList
 
 		self.addedDogFrames = 0
 		self.addedCarFrames = 0
@@ -29,21 +30,22 @@ class MovementsAugmentationMethods:
 
 	"""
 	def flip(self):
-		allFrames = os.listdir(self.dirPath)
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath, frame))
-			imgFlip = ImageOps.flip(img)
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
+				imgFlip = ImageOps.flip(img)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_flipped.jpg")
-			imgFlip.save(newImgName, quality=95)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_flipped.jpg")
+				imgFlip.save(newImgName, quality=95)
 
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 	"""
@@ -51,51 +53,44 @@ class MovementsAugmentationMethods:
 
 	"""
 	def mirror(self):
-		allFrames = os.listdir(self.dirPath)
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath, frame))
-			imgMirror = ImageOps.mirror(img)
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
+				imgMirror = ImageOps.mirror(img)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_mirrored.jpg")
-			imgMirror.save(newImgName, quality=95)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_mirrored.jpg")
+				imgMirror.save(newImgName, quality=95)
 
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 	"""
 	Rotates image a specified number of degrees
 	"""
 	def rotate(self, degrees):
-		allFrames = os.listdir(self.dirPath)
+		for sm in self.smList:
+			allFrames = os.listdir(os.path.join(self.dirPath, sm))
 
-		for frame in allFrames:
-			img = Image.open(os.path.join(self.dirPath, frame))
-			imgRotate = img.rotate(degrees)
+			for frame in allFrames:
+				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
+				imgRotate = img.rotate(degrees)
 
-			newImgName = os.path.join("dataset/", os.path.splitext(frame)[0] + "_rotated.jpg")
-			imgRotate.save(newImgName, quality=95)
+				newImgName = os.path.join(os.path.join(self.dirPath, sm), os.path.splitext(frame)[0] + "_rotated.jpg")
+				imgRotate.save(newImgName, quality=95)
 
-			if "Car" in frame:
-				self.addedCarFrames+=1
-			if "Dog" in frame:
-				self.addedDogFrames+=1
-			if "Plane" in frame:
-				self.addedPlaneFrames+=1
-				
-
-	def updateAddedVariables(self):
-		if "Car" in frame:
-			self.addedCarFrames+=1
-		if "Dog" in frame:
-			self.addedDogFrames+=1
-		if "Plane" in frame:
-			self.addedPlaneFrames+=1
+				if sm == "Car":
+					self.addedCarFrames+=1
+				elif sm == "Dog":
+					self.addedDogFrames+=1
+				else:
+					self.addedPlaneFrames+=1
 
 
 	def updateJson(self):
