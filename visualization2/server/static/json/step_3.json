@@ -1,5 +1,6 @@
 {
-	"normalize": "",
-	"subpixel_layout": "",
-	"resize": ""
+  "normalize": false,
+  "rgb": false,
+  "bgr": false,
+  "resize": "150"
 }

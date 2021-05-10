@@ -1,5 +1,5 @@
 from flask import *
-from preprocessing import removeSomeFrames
+from preprocessing import removeSomeFrames, fullPreprocessing
 from augmentation import fullAugmentationProcess
 from augmentation import augmentationUtils
 
@@ -201,10 +201,16 @@ def changeAugmentationMethods():
 		fullAugmentationProcess.runAugmentationMethods(data, sm_list)
 
 
+with open("static/json/step_3.json", "r") as read_file:
+	preprocessData = json.load(read_file)
+	read_file.close()
+
 @app.route("/preprocess", methods=["GET", "POST"])
+
 
 def allPreprocess():
 	createZip()
+	updatePreprocessJson()
 
 	temp_data = {
 		'numberDog': numDog,
@@ -218,6 +224,24 @@ def allPreprocess():
 	return render_template("preprocess.html", **temp_data)
 
 #creates the zipfile from the augmentedDataset directory
+
+def updatePreprocessJson():
+	if request.method == 'POST':
+		preprocessVals = request.get_json()
+		if preprocessVals != None and type(preprocessVals) == dict:
+			if 'normalize' in list(preprocessVals.keys())[0]:
+				preprocessData["normalize"] = preprocessVals["normalize"]
+				preprocessData["rgb"] = preprocessVals["rgb"]
+				preprocessData["bgr"] = preprocessVals["bgr"]
+				preprocessData["resize"] = preprocessVals["resize"]
+
+				with open("static/json/step_3.json", "w") as write_file:
+					json.dump(preprocessData, write_file, indent=2)
+					write_file.close()
+				log.LOG_INFO("step_3.json updated")
+				log.LOG_INFO("Preprocessing------------------------------------------------")
+				fullPreprocessing.full_preprocess(preprocessData, sm_list)
+
 def createZip():
 	zipFile = pathlib.Path("test.zip")
 	if zipFile.exists():

@@ -31,11 +31,9 @@
 			<h3>Resizing</h3>
 			<p>
 				<label>Enter Base Width for Images</label>
-				<input type="baseWidth" name="baseWidth" value=""/>
+				<input type="baseWidth" name="baseWidth" id="baseWidth" value=""/>
 				(200 recommended)
 			</p>
-			<button>Resize</button>
-			<br>
 			<h3>Normalization</h3>
 			<input type="checkbox" id="normalize" name="normalize">
 			<label for="normalize">Yes, I want to normalize</label><br>
@@ -45,7 +43,10 @@
 			<label for="rgb">RGB</label><br>
 			<input type="checkbox" name="bgr" id="bgr">
 			<label for="rgb">BGR</label>
+			<br><br>
+			<button onclick="sendPreprocessingData();">Preprocess</button>
 		</fieldset>
+		<br>
 		<button onclick="sendZipConfirmation();">Generate ZipFile</button>
 	</form>
 	<br>

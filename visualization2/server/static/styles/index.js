@@ -153,3 +153,29 @@ function sendZipConfirmation(){
 		dataType: "json"
 	});
 }
+
+function sendPreprocessingData(){
+	var resizeValue = document.getElementById("baseWidth").value;
+	var normalizationVal = document.getElementById("normalize").checked;
+	var rgbVal = document.getElementById("rgb").checked;
+	var bgrVal = document.getElementById("bgr").checked;
+
+	preprocessData = {
+		"normalize": normalizationVal,
+		"rgb": rgbVal,
+		"bgr": bgrVal,
+		"resize": resizeValue
+	}
+
+	console.log(preprocessData);
+
+	$.ajax({
+		type: "POST",
+		url: "../preprocess",
+		traditional: "true",
+		contentType: "application/json",
+		data: JSON.stringify(preprocessData),
+		dataType: "json"
+	});
+
+}

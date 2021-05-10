@@ -6,7 +6,7 @@
     "addExtraEdgeEnhance": false,
     "convertRGBToHSV": false,
     "flipImg": false,
-    "mirrorImg": true,
+    "mirrorImg": false,
     "xShearImg": false,
     "yShearImg": false
   }
