@@ -5,6 +5,22 @@ templates/index.html
 ===================
 */
 
+var intervalId = window.setInterval(function(){
+	  updateImageCounter();
+	}, 1000);
+
+function updateImageCounter(){
+	$.ajax({
+	    cache: false,
+	    url: "http://127.0.0.1:5000/static/json/step_1.json",
+	    dataType: "json",
+	    success: function(data) {
+	        $("#numDog").text(data.step_1.numDog)
+	        $("#numCar").text(data.step_1.numCar)
+	        $("#numPlane").text(data.step_1.numPlane)
+	    }
+	});
+}
 
 /*
 Sends subject matter to server as POST request using ajax
@@ -13,6 +29,7 @@ function sendSubjectMatter(){
 	var subject_matter = '';
 	var chosenSM = document.getElementById("first_select").value;
 	subject_matter = chosenSM.substring(3, chosenSM.length);
+
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
