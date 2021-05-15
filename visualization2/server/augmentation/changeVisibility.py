@@ -38,9 +38,10 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
-	def makeGrayScale(self):
+	def makeGrayScale(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			#allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 			for frame in allFrames:
 				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
 				imgGray = ImageOps.grayscale(img)
@@ -158,9 +159,9 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
-	def xAxisShear(self):
+	def xAxisShear(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				#reading image
@@ -193,9 +194,9 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
-	def yAxisShear(self):
+	def yAxisShear(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				#reading image
@@ -228,9 +229,9 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
-	def emboss(self):
+	def emboss(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -255,9 +256,9 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
-	def smooth(self):
+	def smooth(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -282,9 +283,9 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
-	def extraSmooth(self):
+	def extraSmooth(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -309,9 +310,9 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
-	def edgeEnhance(self):
+	def edgeEnhance(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -336,9 +337,10 @@ class VisibilityAugmentationMethods:
 	@params filename: path of file
 
 	"""
-	def extraEdgeEnhance(self):
+	def extraEdgeEnhance(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			#allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -364,9 +366,9 @@ class VisibilityAugmentationMethods:
 
 	"""
 
-	def rgbToHSV(self):
+	def rgbToHSV(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				img = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -398,3 +400,7 @@ class VisibilityAugmentationMethods:
 		with open("static/json/video2Frames.json", "w") as write_file:
 			json.dump(allData, write_file, indent=2)
 			write_file.close()
+
+		self.addedDogFrames = 0
+		self.addedCarFrames = 0
+		self.addedPlaneFrames = 0

@@ -4,7 +4,7 @@ from augmentation.movements import MovementsAugmentationMethods
 import time
 import log
 
-def runAugmentationMethods(augmentationJson, sm):
+def runAugmentationMethods(augmentationJson, sm, allFiles):
 	step2Data = augmentationJson["step_2"]
 	dirPath = "dataset/"
 
@@ -19,52 +19,45 @@ def runAugmentationMethods(augmentationJson, sm):
 	yShearImg = step2Data["yShearImg"]
 
 	log.LOG_INFO("Beginning Augmentation")
+	visibility_augmentationObj = VisibilityAugmentationMethods(dirPath, sm)
+	movements_augmentationObj = MovementsAugmentationMethods(dirPath, sm)
 
 	start_time = time.time()
 	if grayScale:
-		grayScaleAugment = VisibilityAugmentationMethods(dirPath, sm)
-		grayScaleAugment.makeGrayScale()
-		grayScaleAugment.updateJson()
+		visibility_augmentationObj.makeGrayScale(allFiles)
+		visibility_augmentationObj.updateJson()
 		log.LOG_INFO("Images converted to gray scale")
 	if emboss:
-		embossAugment = VisibilityAugmentationMethods(dirPath, sm)
-		embossAugment.emboss()
-		embossAugment.updateJson()
+		visibility_augmentationObj.emboss(allFiles)
+		visibility_augmentationObj.updateJson()
 		log.LOG_INFO("Images embossed")
 	if edgeEnhance:
-		edgeEnhanceAugment = VisibilityAugmentationMethods(dirPath, sm)
-		edgeEnhanceAugment.edgeEnhance()
-		edgeEnhanceAugment.updateJson()
+		visibility_augmentationObj.edgeEnhance(allFiles)
+		visibility_augmentationObj.updateJson()
 		log.LOG_INFO("Images edges enhanced")
 	if extraEdgeEnhance:
-		extraEdgeEnhanceAugment = VisibilityAugmentationMethods(dirPath, sm)
-		extraEdgeEnhanceAugment.extraEdgeEnhance()
-		extraEdgeEnhanceAugment.updateJson()
+		visibility_augmentationObj.extraEdgeEnhance(allFiles)
+		visibility_augmentationObj.updateJson()
 		log.LOG_INFO("Images edges enhanced: EXTRA!")
 	if rgbToHSV:
-		rgbToHSVAugment = VisibilityAugmentationMethods(dirPath, sm)
-		rgbToHSVAugment.rgbToHSV()
-		rgbToHSVAugment.updateJson()
+		visibility_augmentationObj.rgbToHSV(allFiles)
+		visibility_augmentationObj.updateJson()
 		log.LOG_INFO("Images converted from RGB to HSV")
 	if flipImg:
-		flipImgAugment = MovementsAugmentationMethods(dirPath, sm)
-		flipImgAugment.flip()
-		flipImgAugment.updateJson()
+		movements_augmentationObj.flip(allFiles)
+		movements_augmentationObj.updateJson()
 		log.LOG_INFO("Images flipped")
 	if mirrorImg:
-		mirrorImgAugment = MovementsAugmentationMethods(dirPath, sm)
-		mirrorImgAugment.mirror()
-		mirrorImgAugment.updateJson()
+		movements_augmentationObj.mirror(allFiles)
+		movements_augmentationObj.updateJson()
 		log.LOG_INFO("Images mirrored")
 	if xShearImg:
-		xShearImgAugment = VisibilityAugmentationMethods(dirPath, sm)
-		xShearImgAugment.xAxisShear()
-		xShearImgAugment.updateJson()
+		visibility_augmentationObj.xAxisShear(allFiles)
+		visibility_augmentationObj.updateJson()
 		log.LOG_INFO("Images sheared on the x-axis")
 	if yShearImg:
-		yShearImgAugment = VisibilityAugmentationMethods(dirPath, sm)
-		yShearImgAugment.yAxisShear()
-		yShearImgAugment.updateJson()
+		visibility_augmentationObj.yAxisShear(allFiles)
+		visibility_augmentationObj.updateJson()
 		log.LOG_INFO("Images sheared on the y-axis")
 
 	end_time = time.time()

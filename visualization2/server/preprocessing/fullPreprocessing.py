@@ -6,7 +6,7 @@ import shutil
 
 from preprocessing.preprocess import Preprocess
 
-def full_preprocess(preprocessing_data, sm):
+def full_preprocess(preprocessing_data, sm, allFiles):
 	normalize = preprocessing_data["normalize"]
 	rgb = preprocessing_data["rgb"]
 	bgr = preprocessing_data["bgr"]
@@ -17,17 +17,21 @@ def full_preprocess(preprocessing_data, sm):
 	start_time = time.time()
 
 	if normalize:
-		preprocessObj.normalize()
+		preprocessObj.normalize(allFiles)
+		log.LOG_INFO("Images Normalized")
 
 	if rgb and bgr:
 		log.LOG_ERR("Can not convert images to both RGB and BGR")
 	elif rgb:
-		preprocessObj.convert_rgb()
+		preprocessObj.convert_rgb(allFiles)
+		log.LOG_INFO("Images Converted to RGB")
 	elif bgr:
-		preprocessObj.convert_bgr()
+		preprocessObj.convert_bgr(allFiles)
+		log.LOG_INFO("Images Converted to BGR")
 
 	if resize.isnumeric():
-		preprocessObj.resize(int(resize))
+		preprocessObj.resize(int(resize), allFiles)
+		log.LOG_INFO("Images Resized")
 
 	log.LOG_INFO("Moving Images")
 

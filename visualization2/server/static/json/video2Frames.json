@@ -1,5 +1,8 @@
 {
-  "numDog": 308,
+  "numDog": 0,
   "numCar": 0,
-  "numPlane": 0
+  "numPlane": 0,
+  "frame_count": 0,
+  "current_frame": 0,
+  "num": 0
 }

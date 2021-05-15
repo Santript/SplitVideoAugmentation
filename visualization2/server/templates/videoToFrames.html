@@ -8,7 +8,10 @@
 	<title>VideoSplit Data Augmentation</title>
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
 </head>
 
 <script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
@@ -38,15 +41,20 @@
 			<br><br>
 			<form enctype="multipart/form-data" action="/upload" method="POST">
 				<p>Upload Video File: <input type="file" accept="video/*" name="vidFile" id="vidFile"/></p>
-				<p><input type="Submit" for="vidFile" value="Start" id="submitFile"/></p>
+				<p><input type="Submit" for="vidFile" value="Start" id="submitFile" onclick="showFrameProgress(); updateFrameProgress();" /></p>
 				<!--<p><input type="Submit" id="runPyScript" value ="Start" onclick="sendV2FConfirmation();"/></p>-->
 				<!--<button id="runPyScript" onclick="sendV2FConfirmation();">Start</button>-->
 			</form>
+			<div id="frameProgress" style="display: none">
+				<p id="progress"><span id="currentFrame"></span> / <span id="totalFrame"></span></p>
+			</div>
 			<button onclick="sendRemoveFramesConfirmation();">Remove Similar Frames</button>
 		</fieldset>
 		<fieldset>
 			<legend><h3>Description</h3></legend>
-			<h3>BLAH BLAH BLAH</h3>
+			<h3>
+				<li>Splits video into frames</li>
+			</h3>
 		</fieldset>
 		<div id="nextPageButton">
 			<p><a class="nextPageButtonLooks" href="{{url_for('index')}}">Next Step</a></p>

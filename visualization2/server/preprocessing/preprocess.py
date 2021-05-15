@@ -47,9 +47,9 @@ class Preprocess(object):
 	"""
 	Resizing image without maintaining aspect ratio (x,x)
 	"""
-	def resize(self, size):
+	def resize(self, size, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 			for frame in allFrames:
 				image = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
 				image = image.resize((size, size))
@@ -60,9 +60,9 @@ class Preprocess(object):
 	"""
 	normalizing each image
 	"""
-	def normalize(self):
+	def normalize(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 			for frame in allFrames:
 				#reading image
 				img = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -83,9 +83,9 @@ class Preprocess(object):
 	"""
 	Converting image color tensors to RGB
 	"""
-	def convert_rgb(self):
+	def convert_rgb(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 			for frame in allFrames:
 				image = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
 				image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -96,9 +96,9 @@ class Preprocess(object):
 	"""
 	Converting image color tensors to BGR
 	"""
-	def convert_bgr(self):
+	def convert_bgr(self, allFiles):
 			for sm in self.smList:
-				allFrames = os.listdir(os.path.join(self.dirPath, sm))
+				allFrames = allFiles[sm]
 				for frame in allFrames:
 					image = cv2.imread(os.path.join(os.path.join(self.dirPath, sm), frame))
 					image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)

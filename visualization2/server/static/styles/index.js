@@ -145,6 +145,30 @@ function showAugmentationMethods(){
 	augmentationDiv.style.display = "block";
 }
 
+function showFrameProgress(){
+	document.getElementById("frameProgress").style.display = "inline";
+}
+
+function updateFrameProgress(){
+
+	var intervalId = window.setInterval(function(){
+		  $.ajax({
+		      cache: false,
+		      url: "http://127.0.0.1:5000/static/json/video2Frames.json",
+		      dataType: "json",
+		      success: function(data) {
+		          $("#totalFrame").text(data.frame_count)
+		          $("#currentFrame").text(data.current_frame)
+		      }
+		  });
+
+		  if(document.getElementById("frameProgress").style.display == "none"){
+		  	clearInterval(intervalId);
+		  }
+
+		}, 200);
+}
+
 function sendRemoveFramesConfirmation(){
 	var confirmation = "Remove Frames";
 
@@ -158,6 +182,7 @@ function sendRemoveFramesConfirmation(){
 	});
 }
 
+/*
 function sendZipConfirmation(){
 	var confirmation = "Create Zipfile";
 
@@ -170,6 +195,7 @@ function sendZipConfirmation(){
 		dataType: "json"
 	});
 }
+*/
 
 function sendPreprocessingData(){
 	var resizeValue = document.getElementById("baseWidth").value;

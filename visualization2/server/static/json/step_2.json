@@ -1,6 +1,6 @@
 {
   "step_2": {
-    "makeGrayScale": true,
+    "makeGrayScale": false,
     "addEmboss": false,
     "addEdgeEnhance": false,
     "addExtraEdgeEnhance": false,

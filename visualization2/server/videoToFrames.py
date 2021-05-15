@@ -20,6 +20,12 @@ with open("static/json/video2Frames.json", "r") as python_read_file:
 
 #creates VideoCapture object to view the video
 vidcap = cv2.VideoCapture(os.path.join("uploads/", all_data["step_1"]["vid_file"]))
+v2FData["frame_count"] = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+with open("static/json/video2Frames.json", "w") as python_read_file:
+	json.dump(v2FData, python_read_file, indent=2)
+	python_read_file.close()
+
 interval = 0
 
 #splits video into frames and checks if it's successful or not
@@ -29,7 +35,13 @@ while(vidcap.isOpened()):
 	if(determine == False):
 		break
 	#saves all frames in the "frames" directory in the "outputs" directory
-	cv2.imwrite(os.path.join('dataset/', str(object_type)) + '/' + str(object_type) + "_" + os.path.splitext(vid_filename)[0]+str(interval)+'.jpg', frame)
+	cv2.imwrite(os.path.join('dataset/', str(object_type)) + '/' + str(object_type) + "_" + os.path.splitext(vid_filename)[0]+ '_' +str(interval)+'.jpg', frame)
+	v2FData["current_frame"] = interval
+
+	with open("static/json/video2Frames.json", "w") as python_read_file:
+		json.dump(v2FData, python_read_file, indent=2)
+		python_read_file.close()
+
 	interval+=1
 #ends VideoCapture and displays time taken
 vidcap.release()

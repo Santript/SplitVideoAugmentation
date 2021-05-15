@@ -9,6 +9,7 @@ import log
 import downloadZip
 import pathlib
 import zipfile
+import subprocess
 
 app = Flask(__name__)
 application = app
@@ -91,7 +92,8 @@ def uploadVideoFileAndRun():
 	if request.method == 'POST':
 		if request.files:
 			#create proper directories for augmentation and final dataset
-			sm_list.append(crucialData['step_1']['subject_matter'])
+			if crucialData['step_1']['subject_matter'] not in sm_list:
+				sm_list.append(crucialData['step_1']['subject_matter'])
 			augmentationUtils.createDirectories(crucialData['step_1']['subject_matter'])
 
 			#print(request.files["vidFile"])
@@ -143,7 +145,7 @@ def removeCloseFrames():
 
 		if removeFramesConfirmation == "Remove Frames":
 			log.LOG_INFO("removing frames------------------------------------------------------")
-			removeSomeFrames.removeFrames()
+			removeSomeFrames.removeFrames(sm_list)
 
 
 #receives confirmation POST request from js file and then runs videoToFrames.py, which generates all the frames and places them in dataset directory
@@ -198,7 +200,11 @@ def changeAugmentationMethods():
 			data = json.load(read_file)
 			read_file.close()
 
-		fullAugmentationProcess.runAugmentationMethods(data, sm_list)
+		allFiles = {}
+		for sm in sm_list:
+			allFiles[sm] = os.listdir(os.path.join('dataset/', sm))
+
+		fullAugmentationProcess.runAugmentationMethods(data, sm_list, allFiles)
 
 
 with open("static/json/step_3.json", "r") as read_file:
@@ -209,7 +215,6 @@ with open("static/json/step_3.json", "r") as read_file:
 
 
 def allPreprocess():
-	createZip()
 	updatePreprocessJson()
 
 	temp_data = {
@@ -239,22 +244,18 @@ def updatePreprocessJson():
 					json.dump(preprocessData, write_file, indent=2)
 					write_file.close()
 				log.LOG_INFO("step_3.json updated")
-				log.LOG_INFO("Preprocessing------------------------------------------------")
-				fullPreprocessing.full_preprocess(preprocessData, sm_list)
 
-def createZip():
-	zipFile = pathlib.Path("test.zip")
-	if zipFile.exists():
-		log.LOG_INFO("Zipfile Exists")
-	else:
-		if request.method == "POST":
-			zipFileConf = request.get_json()
-			if zipFileConf == "Create Zipfile":
+				allFiles = {}
+				for sm in sm_list:
+					allFiles[sm] = os.listdir(os.path.join('dataset/', sm))
+
+				log.LOG_INFO("Preprocessing------------------------------------------------")
+
+				fullPreprocessing.full_preprocess(preprocessData, sm_list, allFiles)
 				log.LOG_INFO("Zipping Dataset")
 				downloadZip.zipDirectory('augmentedDataset/')
 				log.LOG_INFO("zipfile generated successfully")
 
-				#return send_file('dataset.zip', mimetype='application/zip', as_attachment=True, attachment_filename='dataset.zip')
 
 @app.route("/downloadZip/")
 
@@ -262,7 +263,17 @@ def createZip():
 def download_file():
 	filename = 'dataset.zip'
 	log.LOG_INFO("Sending zip file")
-	return send_file(filename, as_attachment=True)
+
+	@after_this_request
+	def reset(response):
+		try:
+			subprocess.call(['sh', './reset.sh'])
+		except Exception:
+			log.LOG_ERR(Exception)
+			
+		return response
+
+	return send_file(filename, as_attachment=True, cache_timeout=0)
 
 #Running flask app on localhost 5000
 

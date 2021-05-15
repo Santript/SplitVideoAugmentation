@@ -1,8 +1,8 @@
 {
   "step_1": {
-    "vid_file": "TestVid.mp4",
-    "subject_matter": "Dog",
-    "numDog": 308,
+    "vid_file": "",
+    "subject_matter": "",
+    "numDog": 0,
     "numCar": 0,
     "numPlane": 0
   }

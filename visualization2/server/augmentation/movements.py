@@ -29,9 +29,9 @@ class MovementsAugmentationMethods:
 	Flips the image 180 degrees
 
 	"""
-	def flip(self):
+	def flip(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -52,9 +52,10 @@ class MovementsAugmentationMethods:
 	Mirrors the original image
 
 	"""
-	def mirror(self):
+	def mirror(self, allFiles):
 		for sm in self.smList:
-			allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			#allFrames = os.listdir(os.path.join(self.dirPath, sm))
+			allFrames = allFiles[sm]
 
 			for frame in allFrames:
 				img = Image.open(os.path.join(os.path.join(self.dirPath, sm), frame))
@@ -105,3 +106,7 @@ class MovementsAugmentationMethods:
 		with open("static/json/video2Frames.json", "w") as write_file:
 			json.dump(allData, write_file, indent=2)
 			write_file.close()
+
+		self.addedDogFrames = 0
+		self.addedCarFrames = 0
+		self.addedPlaneFrames = 0
