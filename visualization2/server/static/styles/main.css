@@ -11,9 +11,9 @@ body {
 	color: black;
 }
 
-h1 {
+/*h1 {
 	text-align: center;
-}
+}*/
 
 button {
 	cursor: pointer;
@@ -24,6 +24,10 @@ button {
 	text-align: right;
 	font-size: 14px;
 }
+
+.navbar-default {
+  color:black;
+ }
 
 .column {
   float: left;
@@ -272,4 +276,10 @@ input#yShearImg[type=checkbox]:checked + label {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+#nav-gradient {
+  height: 250px;
+  background-color: #202020; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to right, #202020, #303030);
 }

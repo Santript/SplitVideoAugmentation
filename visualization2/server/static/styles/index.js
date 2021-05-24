@@ -26,19 +26,22 @@ function updateImageCounter(){
 Sends subject matter to server as POST request using ajax
 */
 function sendSubjectMatter(){
-	var subject_matter = '';
-	var chosenSM = document.getElementById("first_select").value;
-	subject_matter = chosenSM.substring(3, chosenSM.length);
 
-	$.ajax({
-		type: "POST",
-		contentType: "application/json",
-		url: "../videotoframes",
-		traditional: "true",
-		data: JSON.stringify(subject_matter),
+	$('#first_select li').on('click', function(){
+		$(".btn:first-child").text($(this).text());
+		$(".btn:first-child").val($(this).text());
+		
+	    var subject_matter = $(this).text();
+
+	    $.ajax({
+	    	type: "POST",
+	    	contentType: "application/json",
+	    	url: "../videotoframes",
+	    	traditional: "true",
+	    	data: JSON.stringify(subject_matter),
+	    });
 	});
 }
-
 
 /*
 Sends confirmation value to server as POST request using ajax to run py file (splitting video to frames)

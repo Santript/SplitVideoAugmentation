@@ -7,18 +7,37 @@
 	-->
 	<title>VideoSplit Data Augmentation</title>
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
-	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
-<script type="text/javascript" src="{{ url_for('static', filename='json/data.json') }}"> </script>
 
 <body style="background-color: 	#fff">
-	<h1>VideoSplit Augmentation</h1>
+
+	<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#"><p style="color: #fff">VideoSplit Augmentation</p></a>
+	    </div>
+	    <ul class="nav navbar-nav">
+	      <li class="active"><a href="#"><p style="color: #fff">About</p></a></li>
+	      <li><a href="#"><p style="color: #fff">Video Splitting</p></a></li>
+	      <li><a href="{{url_for('index')}}"><p style="color: #fff">Augmentation</p></a></li>
+	      <li><a href="#"><p style="color: #fff">Preprocessing</p></a></li>
+	    </ul>
+	  </div>
+	</nav>
+	<div id="nav-gradient">
+		<div class="container">
+			<br><br>
+			<h2 style="color: #fff"><b>Video To Frames</b></h2>
+			<h5 style="color: #fff">This step asks for a subject matter (ie. dog, car, plane, etc.)</h5>
+			<h5 style="color: #fff">which is followed by a video upload that correlates to that</h5>
+			<h5 style="color: #fff">object. This video is split into frames and cleaned up.</h5>
+		</div>
+	</div>
 	<div class="subjectMatterCount">
 		<label># of dog images:</label>
 		<span style="padding-right: 10px" id="numDog">0</span>
@@ -27,39 +46,43 @@
 		<label># of plane images:</label>
 		<span style="padding-right: 10px" id="numPlane">0</span>
 	</div>
-	<form method="POST" enctype="multipart/form-data">
-		<fieldset>
-			<legend><h3>Step 1: Video to Frames</h3></legend>
-			<br>
-			<label for="subjectMatter">Select video suject matter:</label>
-			<select id="first_select" onchange="sendSubjectMatter()" name="first_select">
-				<option value="">select</option>
-				<option value="numDog">Dog</option>
-				<option value="numCar">Car</option>
-				<option value="numPlane">Plane</option>
-			</select>
-			<br><br>
-			<form enctype="multipart/form-data" action="/upload" method="POST">
-				<p>Upload Video File: <input type="file" accept="video/*" name="vidFile" id="vidFile"/></p>
-				<p><input type="Submit" for="vidFile" value="Start" id="submitFile" onclick="showFrameProgress(); updateFrameProgress();" /></p>
-				<!--<p><input type="Submit" id="runPyScript" value ="Start" onclick="sendV2FConfirmation();"/></p>-->
-				<!--<button id="runPyScript" onclick="sendV2FConfirmation();">Start</button>-->
-			</form>
-			<div id="frameProgress" style="display: none">
-				<p id="progress"><span id="currentFrame"></span> / <span id="totalFrame"></span></p>
-			</div>
-			<button onclick="sendRemoveFramesConfirmation();">Remove Similar Frames</button>
-		</fieldset>
-		<fieldset>
-			<legend><h3>Description</h3></legend>
-			<h3>
-				<li>Splits video into frames</li>
-			</h3>
-		</fieldset>
-		<div id="nextPageButton">
-			<p><a class="nextPageButtonLooks" href="{{url_for('index')}}">Next Step</a></p>
-		</div>
-	</form>
+	<div class="container">
+		<form method="POST" enctype="multipart/form-data">
+			<fieldset>
+				<!-- <legend><h3>Video to Frames</h3></legend> -->
+				<br>
+				<div class="text-center">
+					<div class="dropdown btn-group">
+					    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Subject Matter
+					    <span class="caret"></span></button>
+					    <ul class="dropdown-menu text-center" id="first_select" value="">
+					     	<li><a href="#" value="numDog" onclick="sendSubjectMatter()">Dog</a></li>
+					      	<li><a href="#" value="numCar" onclick="sendSubjectMatter()">Car</a></li>
+					      	<li><a href="#" value="numPlane" onclick="sendSubjectMatter()">Plane</a></li>
+					    </ul>
+					</div>
+				</div>
+				<br><br>
+				<form enctype="multipart/form-data" action="/upload" method="POST">
+					<label class="form-label" for="vidFile">Upload Video</label>
+					<input type="file" accept="video/*" class="form-control" name="vidFile" id="vidFile"/>
+					<br><br><br><br><br><br>
+					<div class="text-right">
+						<p><input class="btn btn-success" type="Submit" for="vidFile" value="Start" id="submitFile" onclick="showFrameProgress(); updateFrameProgress();" /></p>
+					</div>
+					<!--<p><input type="Submit" id="runPyScript" value ="Start" onclick="sendV2FConfirmation();"/></p>-->
+					<!--<button id="runPyScript" onclick="sendV2FConfirmation();">Start</button>-->
+				</form>
+				<div id="frameProgress" style="display: none">
+					<p id="progress"><span id="currentFrame"></span> / <span id="totalFrame"></span></p>
+				</div>
+				<button style="visibility: hidden;" onclick="sendRemoveFramesConfirmation();">Remove Similar Frames</button>
+			</fieldset>
+			<!-- <div id="nextPageButton">
+				<p><a class="nextPageButtonLooks" href="{{url_for('index')}}">Next Step</a></p>
+			</div> -->
+		</form>
+	</div>
 </body>
 
 </html>
