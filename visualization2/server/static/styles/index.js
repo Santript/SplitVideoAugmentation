@@ -28,8 +28,8 @@ Sends subject matter to server as POST request using ajax
 function sendSubjectMatter(){
 
 	$('#first_select li').on('click', function(){
-		$(".btn:first-child").text($(this).text());
-		$(".btn:first-child").val($(this).text());
+		$("#subj_button").text($(this).text());
+		$("#subj_button").val($(this).text());
 		
 	    var subject_matter = $(this).text();
 
@@ -147,6 +147,11 @@ function showAugmentationMethods(){
 	var augmentationDiv = document.getElementById("postAugmentation");
 	augmentationDiv.style.display = "block";
 }
+
+// function showLoader(){
+// 	var loader = document.getElementById("my_loader");
+// 	setTimeout(() => {  loader.style.display = "block"; }, 2000);
+// }
 
 function showFrameProgress(){
 	document.getElementById("frameProgress").style.display = "inline";

@@ -14,7 +14,7 @@
 
 <script type="text/javascript" src="{{ url_for('static', filename='styles/index.js') }}"> </script>
 
-<body style="background-color: 	#fff">
+<body style="background-color: #fff">
 
 	<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
 	  <div class="container-fluid">
@@ -22,10 +22,14 @@
 	      <a class="navbar-brand" href="#"><p style="color: #fff">VideoSplit Augmentation</p></a>
 	    </div>
 	    <ul class="nav navbar-nav">
-	      <li class="active"><a href="#"><p style="color: #fff">About</p></a></li>
-	      <li><a href="#"><p style="color: #fff">Video Splitting</p></a></li>
+	      <li class="active"><a href="{{url_for('allProcesses')}}"><p style="color: #fff">About</p></a></li>
+	      <li><a href="{{url_for('allProcesses')}}"><p style="color: #fff">Video Splitting</p></a></li>
 	      <li><a href="{{url_for('index')}}"><p style="color: #fff">Augmentation</p></a></li>
-	      <li><a href="#"><p style="color: #fff">Preprocessing</p></a></li>
+	      <li><a href="{{url_for('allPreprocess')}}"><p style="color: #fff">Preprocessing</p></a></li>
+	    </ul>
+	    <ul class="nav navbar-nav navbar-right">
+	    	<li><a href="#"><p style="color: #fff">Sign Up</p></a></li>
+	    	<li><a href="#"><p style="color: #fff">Log In</p></a></li>
 	    </ul>
 	  </div>
 	</nav>
@@ -33,6 +37,7 @@
 		<div class="container">
 			<br><br>
 			<h2 style="color: #fff"><b>Video To Frames</b></h2>
+			<br>
 			<h5 style="color: #fff">This step asks for a subject matter (ie. dog, car, plane, etc.)</h5>
 			<h5 style="color: #fff">which is followed by a video upload that correlates to that</h5>
 			<h5 style="color: #fff">object. This video is split into frames and cleaned up.</h5>
@@ -53,7 +58,7 @@
 				<br>
 				<div class="text-center">
 					<div class="dropdown btn-group">
-					    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Subject Matter
+					    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="subj_button">Select Subject Matter
 					    <span class="caret"></span></button>
 					    <ul class="dropdown-menu text-center" id="first_select" value="">
 					     	<li><a href="#" value="numDog" onclick="sendSubjectMatter()">Dog</a></li>
@@ -63,9 +68,12 @@
 					</div>
 				</div>
 				<br><br>
+				<div class="text-center" id="frameProgress" style="display: none">
+					<p id="progress"><span id="currentFrame"></span> / <span id="totalFrame"></span></p>
+				</div>
 				<form enctype="multipart/form-data" action="/upload" method="POST">
 					<label class="form-label" for="vidFile">Upload Video</label>
-					<input type="file" accept="video/*" class="form-control" name="vidFile" id="vidFile"/>
+					<input type="file" accept="video/*" class="file_multi_video form-control" name="vidFile" id="vidFile" data-toggle="modal" data-target="#myModal"/>
 					<br><br><br><br><br><br>
 					<div class="text-right">
 						<p><input class="btn btn-success" type="Submit" for="vidFile" value="Start" id="submitFile" onclick="showFrameProgress(); updateFrameProgress();" /></p>
@@ -73,9 +81,6 @@
 					<!--<p><input type="Submit" id="runPyScript" value ="Start" onclick="sendV2FConfirmation();"/></p>-->
 					<!--<button id="runPyScript" onclick="sendV2FConfirmation();">Start</button>-->
 				</form>
-				<div id="frameProgress" style="display: none">
-					<p id="progress"><span id="currentFrame"></span> / <span id="totalFrame"></span></p>
-				</div>
 				<button style="visibility: hidden;" onclick="sendRemoveFramesConfirmation();">Remove Similar Frames</button>
 			</fieldset>
 			<!-- <div id="nextPageButton">
@@ -83,6 +88,34 @@
 			</div> -->
 		</form>
 	</div>
+
+	<!-- Video Modal -->
+	    <div class="modal fade" id="myModal" role="dialog">
+	        <div class="modal-dialog modal-xl">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    Uploaded Video
+	                </div>
+	                <div class="modal-body">
+	                    <video width="568" controls>
+	                      <source src="mov_bbb.mp4" id="video_here">
+	                        Your browser does not support HTML5 video.
+	                    </video>
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-default" data-dismiss="modal" style="border: 1px solid #d3d3d3">Confirm</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 </body>
+
+<script type="text/javascript">
+	$(document).on("change", ".file_multi_video", function(evt) {
+	  var $source = $('#video_here');
+	  $source[0].src = URL.createObjectURL(this.files[0]);
+	  $source.parent()[0].load();
+	});
+</script>
 
 </html>

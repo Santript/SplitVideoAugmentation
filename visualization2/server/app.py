@@ -44,7 +44,6 @@ def allProcesses():
 	updateSubjectMatter()
 	uploadVideoFileAndRun()
 	updateSubjectMatterJson()
-	removeCloseFrames()
 
 	#writing to json file
 	#with open("static/json/data.json", "w") as read_file:
@@ -111,12 +110,15 @@ def uploadVideoFileAndRun():
 				v2fFile = open(r'videoToFrames.py', 'r').read()
 				#executing py script
 				log.LOG_INFO("Splitting video into frames-----------------------------------------")
-				return exec(v2fFile)
+				exec(v2fFile)
+
+				#removing similar frames
+				log.LOG_INFO("removing frames------------------------------------------------------")
+
+				removeSomeFrames.removeFrames(crucialData["step_1"]["subject_matter"].split(" "))
 
 		else:
 			log.LOG_INFO("unable to save video and execute py script")
-
-		#checking if POST request was received
 		
 
 
@@ -137,15 +139,6 @@ def updateSubjectMatterJson():
 	with open("static/json/step_1.json", "w") as write_file:
 		json.dump(crucialData, write_file, indent=2)
 		write_file.close()
-
-
-def removeCloseFrames():
-	if request.method == "POST":
-		removeFramesConfirmation = request.get_json()
-
-		if removeFramesConfirmation == "Remove Frames":
-			log.LOG_INFO("removing frames------------------------------------------------------")
-			removeSomeFrames.removeFrames(sm_list)
 
 
 #receives confirmation POST request from js file and then runs videoToFrames.py, which generates all the frames and places them in dataset directory
@@ -183,6 +176,7 @@ def changeAugmentationMethods():
 	if request.method == "POST":
 		augmentationMethods = request.get_json()
 		
+		#setting augmentation in json file
 		augmentationData["step_2"]["makeGrayScale"] = augmentationMethods["makeGrayScale"]
 		augmentationData["step_2"]["addEmboss"] = augmentationMethods["addEmboss"]
 		augmentationData["step_2"]["addEdgeEnhance"] = augmentationMethods["addEdgeEnhance"]
@@ -193,6 +187,7 @@ def changeAugmentationMethods():
 		augmentationData["step_2"]["xShearImg"] = augmentationMethods["xShearImg"]
 		augmentationData["step_2"]["yShearImg"] = augmentationMethods["yShearImg"]
 
+		#writing to json file
 		with open("static/json/step_2.json", "w") as write_file:
 			json.dump(augmentationData, write_file, indent=2)
 			write_file.close()

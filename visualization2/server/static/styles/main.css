@@ -260,11 +260,12 @@ input#yShearImg[type=checkbox]:checked + label {
 
 .loader {
 	border: 5px solid #f3f3f3;
+	margin-left: 550px;
 	border-radius: 50%;
 	border-top: 5px solid #3498db;
 	width: 40px;
 	height: 40px;
-	-webkit-animation: spin 2s linear infinite; /* Safari */
+	-webkit-animation: spin 2s linear infinite;
 	animation: spin 2s linear infinite;
 }
 
