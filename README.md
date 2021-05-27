@@ -48,10 +48,14 @@ cd VideoSplitAugmentation/visualization2/server
 #run the application and start server
 sudo flask run
 
+#or
+
+python app.py
+
 #navigate to http://127.0.0.1:5000/videotoframes
 ```
 
-## Sample Dataset (Dog vs Car cs Plane) - 96% acc
+## Sample Dataset (Dog vs Car vs Plane) - 96% acc
 
 Download here: [dataset.zip](https://github.com/Santript/SplitVideoAugmentation/files/6549346/dataset.zip)
 
